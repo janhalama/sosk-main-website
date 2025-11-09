@@ -67,6 +67,7 @@ The repo should follow a predictable, discoverable layout. Content is Markdown-f
 ```
 
 Notes:
+
 - Markdown frontmatter drives lists and routes for news posts; images live in the repo under `public/`.
 - Decap CMS is served from `/admin`; it commits Markdown to the repo, triggering a Vercel rebuild.
 
@@ -117,6 +118,7 @@ Notes:
 ## UI and Theme Rules (Tailwind, shadcn/ui, Radix)
 
 Follow `_docs/ui-rules.md` and `_docs/theme-rules.md`. Key points:
+
 - Layout:
   - Centered containers; `max-w-screen-lg` for prose, `max-w-screen-xl` for media grids.
   - Comfortable line lengths (≈60–75 chars) and consistent spacing scale (4/8px steps).
@@ -200,6 +202,7 @@ Follow `_docs/ui-rules.md` and `_docs/theme-rules.md`. Key points:
 ## Contribution Checklist
 
 Before opening a PR or publishing content:
+
 - Structure:
   - File is ≤ 500 lines and placed in the correct folder.
   - File begins with a brief purpose explanation.
@@ -225,5 +228,3 @@ Before opening a PR or publishing content:
 - Next Metadata API and automated sitemap.
 - Analytics (Vercel Analytics/Plausible) and error monitoring (Sentry).
 - Git hooks and CI expansion (Husky, lint-staged, GitHub Actions).
-
-

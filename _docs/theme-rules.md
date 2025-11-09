@@ -3,6 +3,7 @@
 This document defines the visual theme tokens (colors, typography, spacing, radii, shadows, borders), responsive rules, and core component styles. It is designed to closely match the current public website’s look while improving responsiveness and accessibility. These tokens should be reflected in Tailwind config, CSS variables, and shadcn/ui themes.
 
 Reference sources:
+
 - Project: see `_docs/project-overview.md`, `_docs/user-flow.md`, `_docs/tech-stack.md`
 - Current public website (visual baseline): [`https://www.sokolskuhrov.cz/`](https://www.sokolskuhrov.cz/)
 
@@ -18,7 +19,7 @@ Semantic palette maps to brand and neutral colors. Values below are practical de
   - `--color-brand-200: #ffc2c2`
   - `--color-brand-300: #ff9a9a`
   - `--color-brand-400: #f26b6b`
-  - `--color-brand-500: #e34141`   ← default
+  - `--color-brand-500: #e34141` ← default
   - `--color-brand-600: #c92a2a`
   - `--color-brand-700: #b11f1f`
   - `--color-brand-800: #8f1b1b`
@@ -39,8 +40,8 @@ Semantic palette maps to brand and neutral colors. Values below are practical de
 - States:
   - Success: `--color-success-600: #16a34a` (green-600)
   - Warning: `--color-warning-600: #d97706` (amber-600)
-  - Danger:  `--color-danger-600:  #b91c1c` (red-700)
-  - Info:    `--color-info-600:    #2563eb` (blue-600)
+  - Danger: `--color-danger-600:  #b91c1c` (red-700)
+  - Info: `--color-info-600:    #2563eb` (blue-600)
 
 - Semantic aliases (use these in components):
   - `--color-bg:            #ffffff`
@@ -56,6 +57,7 @@ Semantic palette maps to brand and neutral colors. Values below are practical de
   - `--color-accent:        var(--color-brand-600)`
 
 Notes:
+
 - Keep link colors accessible on white; adjust `link-visited` slightly darker than default link.
 - Prefer subtle borders over heavy shadows to create separation on white surfaces.
 
@@ -65,9 +67,9 @@ Notes:
 
 - Font family: System stack (e.g., `ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, …`)
 - Sizes (rem):
-  - `--font-size-xs:   0.75rem`  (12px)
+  - `--font-size-xs:   0.75rem` (12px)
   - `--font-size-sm:   0.875rem` (14px)
-  - `--font-size-base: 1rem`     (16px)
+  - `--font-size-base: 1rem` (16px)
   - `--font-size-lg:   1.125rem` (18px) ← preferred body on wide screens
   - `--font-size-xl:   1.25rem`
   - `--font-size-2xl:  1.5rem`
@@ -82,6 +84,7 @@ Notes:
   - Body: 400 (normal).
 
 Usage:
+
 - Page titles: `2xl–3xl` at `md+`, `xl–2xl` on mobile.
 - Section headings: `xl–2xl`.
 - Body: base–lg with `--leading-relaxed` for prose.
@@ -198,5 +201,3 @@ Usage:
 
 - All token changes should be small, incremental, and validated against a few representative pages (Home, News list/detail, Gallery, Sponsors, Contact).
 - Ensure every change maintains or improves contrast, readability, and responsiveness.
-
-

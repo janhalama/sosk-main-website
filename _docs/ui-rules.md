@@ -3,6 +3,7 @@
 This document defines the core design principles, layout rules, component patterns, accessibility, and content behaviors for the new static site. It aligns with the current public website design and structure while adding proper responsiveness and maintainability for a Next.js (App Router) + Tailwind + shadcn/ui stack.
 
 Reference sources:
+
 - Project: see `_docs/project-overview.md`, `_docs/user-flow.md`, `_docs/tech-stack.md`
 - Current public website (visual baseline and IA): [`https://www.sokolskuhrov.cz/`](https://www.sokolskuhrov.cz/)
 
@@ -168,5 +169,3 @@ Non‑goals (initially): site search, heavy animations, complex dynamic effects 
 - Links are distinguishable, with hover/visited states.
 - Images have defined dimensions and good alt text.
 - Focus styles are visible; keyboard navigation works end‑to‑end.
-
-

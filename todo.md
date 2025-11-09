@@ -4,9 +4,9 @@ This is the single source of truth for building the project iteratively from bar
 
 ## Phase 01 — Setup (foundation)
 
-- [ ] Create Next.js app (App Router, TypeScript) and commit baseline
-  - [ ] Configure ESLint (typescript-eslint) + Prettier
-  - [ ] Enable strict TypeScript; no `any`
+- [x] Create Next.js app (App Router, TypeScript) and commit baseline
+  - [x] Configure ESLint (typescript-eslint) + Prettier
+  - [x] Enable strict TypeScript; no `any`
 - [ ] Install Tailwind CSS and wire globals
   - [ ] Add `app/globals.css` and Tailwind base/utilities
   - [ ] Create `styles/theme.css` with tokens from `_docs/theme-rules.md`
@@ -123,5 +123,3 @@ This is the single source of truth for building the project iteratively from bar
 - [ ] Custom security headers / CSP (`headers()` or `vercel.json`)
 - [ ] Test setup (Vitest/Testing Library, Playwright)
 - [ ] Git hooks (Husky/lint-staged) and broader CI (GitHub Actions)
-
-
