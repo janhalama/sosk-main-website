@@ -11,9 +11,9 @@ This is the single source of truth for building the project iteratively from bar
   - [x] Add `app/globals.css` and Tailwind base/utilities
   - [x] Define theme tokens via Tailwind v4 `@theme` inline in `globals.css`
   - [x] Expose semantic tokens (brand/neutral/aliases) via `@theme` (Tailwind v4)
-- [ ] Install shadcn/ui + Radix and initialize minimal components
-  - [ ] Set up shadcn generator (scoped to `components/ui`)
-  - [ ] Generate base Button, Card as starting primitives
+- [x] Install shadcn/ui + Radix and initialize minimal components
+  - [x] Set up shadcn generator (scoped to `components/ui`)
+  - [x] Generate base Button, Card as starting primitives
 - [ ] Establish repository layout (per `_docs/project-rules.md`)
   - [ ] `app/(site)/page.tsx` (Home), `layout.tsx` with `lang="cs"` and base metadata shell
   - [ ] Route folders: `cinnost/`, `akce/`, `fotogalerie/`, `sponzori/`, `kontakty/`
