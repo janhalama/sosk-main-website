@@ -22,10 +22,10 @@ This is the single source of truth for building the project iteratively from bar
   - [x] `lib/` → `content/` helpers, `seo/` helpers
   - [x] `public/images/` (assets), `public/admin/` (Decap CMS)
   - [x] `config/decap/` (if extracting CMS config), `types/` for shared types
-- [ ] Scaffold navigation and footer
-  - [ ] `components/navigation/Header.tsx` with accessible nav
-  - [ ] `components/navigation/Footer.tsx` with organization info
-  - [ ] Add skip‑to‑content link and visible focus styles
+- [x] Scaffold navigation and footer
+  - [x] `components/navigation/Header.tsx` with accessible nav
+  - [x] `components/navigation/Footer.tsx` with organization info
+  - [x] Add skip‑to‑content link and visible focus styles
 - [ ] Seed content placeholders
   - [ ] `content/pages/{doma,cinnost,fotogalerie,sponzori,kontakty}.md` with minimal copy
   - [x] `content/posts/` empty folder committed
