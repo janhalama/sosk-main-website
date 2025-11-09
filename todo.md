@@ -14,21 +14,21 @@ This is the single source of truth for building the project iteratively from bar
 - [x] Install shadcn/ui + Radix and initialize minimal components
   - [x] Set up shadcn generator (scoped to `components/ui`)
   - [x] Generate base Button, Card as starting primitives
-- [ ] Establish repository layout (per `_docs/project-rules.md`)
-  - [ ] `app/(site)/page.tsx` (Home), `layout.tsx` with `lang="cs"` and base metadata shell
-  - [ ] Route folders: `cinnost/`, `akce/`, `fotogalerie/`, `sponzori/`, `kontakty/`
-  - [ ] `components/` → `ui/`, `navigation/`, `content/`
-  - [ ] `content/` → `pages/`, `posts/`
-  - [ ] `lib/` → `content/` helpers, `seo/` helpers
-  - [ ] `public/images/` (assets), `public/admin/` (Decap CMS)
-  - [ ] `config/decap/` (if extracting CMS config), `types/` for shared types
+- [x] Establish repository layout (per `_docs/project-rules.md`)
+  - [x] `app/(site)/page.tsx` (Home), `layout.tsx` with `lang="cs"` and base metadata shell
+  - [x] Route folders: `cinnost/`, `akce/`, `fotogalerie/`, `sponzori/`, `kontakty/`
+  - [x] `components/` → `ui/`, `navigation/`, `content/`
+  - [x] `content/` → `pages/`, `posts/`
+  - [x] `lib/` → `content/` helpers, `seo/` helpers
+  - [x] `public/images/` (assets), `public/admin/` (Decap CMS)
+  - [x] `config/decap/` (if extracting CMS config), `types/` for shared types
 - [ ] Scaffold navigation and footer
   - [ ] `components/navigation/Header.tsx` with accessible nav
   - [ ] `components/navigation/Footer.tsx` with organization info
   - [ ] Add skip‑to‑content link and visible focus styles
 - [ ] Seed content placeholders
   - [ ] `content/pages/{doma,cinnost,fotogalerie,sponzori,kontakty}.md` with minimal copy
-  - [ ] `content/posts/` empty folder committed
+  - [x] `content/posts/` empty folder committed
 - [ ] Add basic lib for content parsing
   - [ ] `lib/content/frontmatter.ts` (read/parse Markdown via gray‑matter)
   - [ ] `lib/content/posts.ts` (list/sort posts, slug helpers)
