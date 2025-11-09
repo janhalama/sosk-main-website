@@ -1,26 +1,157 @@
 @import "tailwindcss";
 
+/* Global theme and Tailwind v4 tokens for Sokol Skuhrov static site.
+   Implements semantic colors, typography defaults, radii, borders, and shadows
+   per `_docs/theme-rules.md`. Light theme only. */
+
+/* Base semantic CSS variables (light theme) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand (primary accent) */
+  --color-brand-50:  #fff1f1;
+  --color-brand-100: #ffe0e0;
+  --color-brand-200: #ffc2c2;
+  --color-brand-300: #ff9a9a;
+  --color-brand-400: #f26b6b;
+  --color-brand-500: #e34141;
+  --color-brand-600: #c92a2a;
+  --color-brand-700: #b11f1f;
+  --color-brand-800: #8f1b1b;
+  --color-brand-900: #701616;
+
+  /* Neutral (surfaces) */
+  --color-neutral-50:  #fafafa;
+  --color-neutral-100: #f4f4f5;
+  --color-neutral-200: #e4e4e7;
+  --color-neutral-300: #d4d4d8;
+  --color-neutral-400: #a1a1aa;
+  --color-neutral-500: #71717a;
+  --color-neutral-600: #52525b;
+  --color-neutral-700: #3f3f46;
+  --color-neutral-800: #27272a;
+  --color-neutral-900: #18181b;
+
+  /* State colors */
+  --color-success-600: #16a34a;
+  --color-warning-600: #d97706;
+  --color-danger-600:  #b91c1c;
+  --color-info-600:    #2563eb;
+
+  /* Semantic aliases */
+  --color-bg:           #ffffff;
+  --color-surface:      var(--color-neutral-50);
+  --color-surface-alt:  var(--color-neutral-100);
+  --color-border:       var(--color-neutral-200);
+  --color-muted:        var(--color-neutral-500);
+  --color-foreground:   #111111;
+  --color-link:         var(--color-brand-700);
+  --color-link-hover:   var(--color-brand-800);
+  --color-link-visited: #7a1a1a;
+  --color-ring:         var(--color-brand-600);
+  --color-accent:       var(--color-brand-600);
+
+  /* Typography tokens */
+  --font-size-xs:   0.75rem;
+  --font-size-sm:   0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg:   1.125rem;
+  --font-size-xl:   1.25rem;
+  --font-size-2xl:  1.5rem;
+  --font-size-3xl:  1.875rem;
+  --font-size-4xl:  2.25rem;
+  --leading-tight:   1.25;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.65;
 }
 
+/* Map variables into Tailwind v4 tokens */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Colors (exposed as text-*, bg-*, border-*) */
+  --color-bg:            var(--color-bg);
+  --color-surface:       var(--color-surface);
+  --color-surface-alt:   var(--color-surface-alt);
+  --color-border:        var(--color-border);
+  --color-muted:         var(--color-muted);
+  --color-foreground:    var(--color-foreground);
+  --color-link:          var(--color-link);
+  --color-link-hover:    var(--color-link-hover);
+  --color-link-visited:  var(--color-link-visited);
+  --color-ring:          var(--color-ring);
+  --color-accent:        var(--color-accent);
+
+  /* Brand + Neutral scales (usable via text-brand-600, bg-neutral-100, etc.) */
+  --color-brand-50:  var(--color-brand-50);
+  --color-brand-100: var(--color-brand-100);
+  --color-brand-200: var(--color-brand-200);
+  --color-brand-300: var(--color-brand-300);
+  --color-brand-400: var(--color-brand-400);
+  --color-brand-500: var(--color-brand-500);
+  --color-brand-600: var(--color-brand-600);
+  --color-brand-700: var(--color-brand-700);
+  --color-brand-800: var(--color-brand-800);
+  --color-brand-900: var(--color-brand-900);
+
+  --color-neutral-50:  var(--color-neutral-50);
+  --color-neutral-100: var(--color-neutral-100);
+  --color-neutral-200: var(--color-neutral-200);
+  --color-neutral-300: var(--color-neutral-300);
+  --color-neutral-400: var(--color-neutral-400);
+  --color-neutral-500: var(--color-neutral-500);
+  --color-neutral-600: var(--color-neutral-600);
+  --color-neutral-700: var(--color-neutral-700);
+  --color-neutral-800: var(--color-neutral-800);
+  --color-neutral-900: var(--color-neutral-900);
+
+  /* Radii, borders, shadows */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-pill: 9999px;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 2px 6px rgba(0,0,0,0.08);
+
+  /* Fonts */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Base resets and element defaults */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  line-height: var(--leading-relaxed);
+  text-rendering: optimizeLegibility;
+}
+
+/* Accessible focus ring */
+:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+/* Link styles */
+a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+a:hover { color: var(--color-link-hover); text-decoration: underline; }
+a:visited { color: var(--color-link-visited); }
+
+/* Headings and typography scale */
+h1, h2, h3, h4, h5, h6 { color: var(--color-foreground); line-height: var(--leading-tight); margin: 0; }
+h1 { font-size: var(--font-size-3xl); }
+h2 { font-size: var(--font-size-2xl); }
+h3 { font-size: var(--font-size-xl); }
+p  { margin: 0; font-size: var(--font-size-base); }
+
+/* Surface helpers (optional) */
+.surface {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
 }

@@ -7,10 +7,10 @@ This is the single source of truth for building the project iteratively from bar
 - [x] Create Next.js app (App Router, TypeScript) and commit baseline
   - [x] Configure ESLint (typescript-eslint) + Prettier
   - [x] Enable strict TypeScript; no `any`
-- [ ] Install Tailwind CSS and wire globals
-  - [ ] Add `app/globals.css` and Tailwind base/utilities
-  - [ ] Create `styles/theme.css` with tokens from `_docs/theme-rules.md`
-  - [ ] Map semantic tokens into Tailwind config as needed
+- [x] Install Tailwind CSS and wire globals
+  - [x] Add `app/globals.css` and Tailwind base/utilities
+  - [x] Define theme tokens via Tailwind v4 `@theme` inline in `globals.css`
+  - [x] Expose semantic tokens (brand/neutral/aliases) via `@theme` (Tailwind v4)
 - [ ] Install shadcn/ui + Radix and initialize minimal components
   - [ ] Set up shadcn generator (scoped to `components/ui`)
   - [ ] Generate base Button, Card as starting primitives
