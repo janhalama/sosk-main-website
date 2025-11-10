@@ -32,13 +32,13 @@ This is the single source of truth for building the project iteratively from bar
 - [x] Add basic lib for content parsing
   - [x] `lib/content/frontmatter.ts` (read/parse Markdown via gray‑matter)
   - [x] `lib/content/posts.ts` (list/sort posts, slug helpers)
-- [ ] Decap CMS skeleton
-  - [ ] `public/admin/index.html` (Decap SPA bootstrap)
-  - [ ] `public/admin/config.yml` (collections: pages, posts; media folder; slug rules)
-  - [ ] Choose GitHub backend; document OAuth flow and envs
-- [ ] OAuth plan for Decap (GitHub)
-  - [ ] Prepare Next.js API routes for Decap OAuth (serverless) or external OAuth service
-  - [ ] Environment variables: `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `ALLOWED_GH_USERS`
+- [x] Decap CMS skeleton
+  - [x] `public/admin/index.html` (Decap SPA bootstrap)
+  - [x] `public/admin/config.yml` (collections: pages, posts; media folder; slug rules)
+  - [x] Choose GitHub backend; document OAuth flow and envs
+- [x] OAuth plan for Decap (GitHub)
+  - [x] Prepare Next.js API routes for Decap OAuth (serverless) or external OAuth service
+  - [x] Environment variables: `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `ALLOWED_GH_USERS`
 - [ ] Vercel project setup
   - [ ] Connect repository, set build settings (defaults OK)
   - [ ] Configure environment variables (preview + production)
