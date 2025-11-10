@@ -29,9 +29,9 @@ This is the single source of truth for building the project iteratively from bar
 - [x] Seed content placeholders
   - [x] `content/pages/{doma,cinnost,fotogalerie,sponzori,kontakty}.md` with minimal copy
   - [x] `content/posts/` empty folder committed
-- [ ] Add basic lib for content parsing
-  - [ ] `lib/content/frontmatter.ts` (read/parse Markdown via gray‑matter)
-  - [ ] `lib/content/posts.ts` (list/sort posts, slug helpers)
+- [x] Add basic lib for content parsing
+  - [x] `lib/content/frontmatter.ts` (read/parse Markdown via gray‑matter)
+  - [x] `lib/content/posts.ts` (list/sort posts, slug helpers)
 - [ ] Decap CMS skeleton
   - [ ] `public/admin/index.html` (Decap SPA bootstrap)
   - [ ] `public/admin/config.yml` (collections: pages, posts; media folder; slug rules)
