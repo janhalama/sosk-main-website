@@ -105,3 +105,61 @@ p  { margin: 0; font-size: var(--font-size-base); }
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
 }
+
+/* Markdown-rendered table defaults (GFM) */
+article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: var(--font-size-base);
+}
+article thead th {
+  text-align: left;
+  font-weight: 600;
+  padding: 0.75rem 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+article tbody td {
+  padding: 0.75rem 0.75rem;
+  vertical-align: middle;
+  color: var(--color-muted);
+}
+article tbody tr {
+  border-bottom: 1px solid var(--color-border);
+}
+article tbody tr:last-child {
+  border-bottom: 0;
+}
+
+/* Markdown typography rhythm and spacing */
+article {
+  line-height: var(--leading-relaxed);
+}
+/* Add vertical rhythm between direct children */
+article > :not(style) + :not(style) {
+  margin-top: 1rem;
+}
+/* Headings spacing */
+article h2 {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+article h3 {
+  margin-top: 1.25rem;
+  margin-bottom: 0.25rem;
+}
+/* Lists */
+article ul,
+article ol {
+  padding-left: 1.25rem;
+}
+article li + li {
+  margin-top: 0.25rem;
+}
+/* Blockquotes */
+article blockquote {
+  border-left: 2px solid var(--color-border);
+  padding-left: 1rem;
+  color: var(--color-muted);
+  margin: 1rem 0;
+}
