@@ -13,11 +13,13 @@ export default async function SponzoriPage() {
     const raw = (data?.sponsors as string | undefined) || "";
     try {
       const arr = typeof raw === "string" ? JSON.parse(raw) : Array.isArray(raw) ? raw : [];
-      return (arr as Array<any>).map((s) => ({
-        name: String(s.name || ""),
-        image: String(s.image || ""),
-        href: s.href ? String(s.href) : undefined,
-      }));
+      return (arr as Array<unknown>).map((sponsorItem) => {
+        const obj = sponsorItem && typeof sponsorItem === "object" ? (sponsorItem as Record<string, unknown>) : {};
+        const name = typeof obj.name === "string" ? obj.name : "";
+        const image = typeof obj.image === "string" ? obj.image : "";
+        const href = typeof obj.href === "string" && obj.href.trim().length > 0 ? obj.href : undefined;
+        return { name, image, href };
+      });
     } catch {
       return [];
     }
