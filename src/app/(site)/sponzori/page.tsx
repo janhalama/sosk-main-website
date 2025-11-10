@@ -32,7 +32,7 @@ export default async function SponzoriPage() {
         { name: "Národní sportovní agentura", src: "/images/sponsors/Narodni-sportovni-agentura_logo-rgb-1024x513.png" },
         { name: "Liberecký kraj", src: "/images/sponsors/sponzor_liberecky-kraj_cerne.png" },
         { name: "Obec Skuhrov", src: "/images/sponsors/sponzor_skuhrov-911x1024.png" },
-        { name: "Obec Pěnčín", src: "/images/sponsors/sponzor_obec-pencin.jpg" },
+        { name: "Obec Pěnčín", src: "/images/sponsors/sponzor_obec-pencin.png" },
         { name: "Malina Safety", src: "/images/sponsors/MS_Logo_ColorTranspBG-1024x164.png" },
         { name: "TFnet", src: "/images/sponsors/sponzor_tfnet.png" },
         { name: "Sorbents", src: "/images/sponsors/sponzor_sorbents.png" },
@@ -43,41 +43,49 @@ export default async function SponzoriPage() {
   return (
     <main className="mx-auto max-w-screen-xl px-4 sm:px-6 md:px-8 py-12">
       <h1 className="text-3xl font-semibold tracking-tight mb-4">{title}</h1>
-      <section className="mb-8">
-        <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-          {sponsors.map((sponsor) => (
-            <li key={sponsor.src} className="border rounded-md bg-white p-4 flex items-center justify-center">
-              {("href" in sponsor && sponsor.href) ? (
-                <a href={sponsor.href} aria-label={sponsor.name} target="_blank" rel="noreferrer noopener">
+      <section className="mt-2 mb-10">
+        <ul className="grid grid-cols-2 md:grid-cols-3 gap-6">
+          {sponsors.map((sponsor) => {
+            const showCaption = sponsor.name === "Obec Skuhrov" || sponsor.name === "Obec Pěnčín";
+            const cardInner = (
+              <>
+                <div className="relative w-full aspect-[3/2]">
                   <Image
                     src={sponsor.src}
                     alt={sponsor.name}
-                    width={320}
-                    height={160}
-                    className="object-contain w-full h-auto"
+                    fill
+                    className="object-contain"
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    priority={false}
                   />
-                </a>
-              ) : (
-                <Image
-                  src={sponsor.src}
-                  alt={sponsor.name}
-                  width={320}
-                  height={160}
-                  className="object-contain w-full h-auto"
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                />
-              )}
-            </li>
-          ))}
-          <li className="border rounded-md bg-white p-4 flex items-center justify-center text-center text-sm">
-            <div>
-              <div className="font-semibold">Rolbaři</div>
-              <div>Josef Bouda a Pavel Pavlata</div>
+                </div>
+                {showCaption ? (
+                  <div className="mt-2 text-center text-sm font-medium">{sponsor.name}</div>
+                ) : null}
+              </>
+            );
+            return (
+              <li key={sponsor.src} className="border rounded-md bg-white p-4">
+                {("href" in sponsor && sponsor.href) ? (
+                  <a href={sponsor.href} aria-label={sponsor.name} target="_blank" rel="noreferrer noopener" className="block">
+                    {cardInner}
+                  </a>
+                ) : (
+                  cardInner
+                )}
+              </li>
+            );
+          })}
+          <li className="border rounded-md bg-white p-4">
+            <div className="w-full aspect-[3/2] flex items-center justify-center text-center text-sm">
+              <div>
+                <div className="font-semibold">Rolbaři</div>
+                <div>Josef Bouda a Pavel Pavlata</div>
+              </div>
             </div>
           </li>
-          <li className="border rounded-md bg-white p-4 flex items-center justify-center text-center text-sm">
-            <div>
+          <li className="border rounded-md bg-white p-4">
+            <div className="w-full aspect-[3/2] flex items-center justify-center text-center text-sm">
               <div className="font-semibold">Salon OLLi</div>
             </div>
           </li>
