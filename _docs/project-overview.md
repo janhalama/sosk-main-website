@@ -33,8 +33,8 @@ This approach replaces the WordPress database and plugins with **a git-based con
 - Visitors see a **fast, static website**.
 - The structure mirrors the current site:
   - Domů
-  - Aktuality (News)
   - Činnost
+  - Akce
   - Fotogalerie
   - Sponzoři
   - Kontakty

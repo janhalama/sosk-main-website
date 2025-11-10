@@ -10,6 +10,7 @@ type NavItem = {
 const NAV_ITEMS: NavItem[] = [
   { href: "/akce", label: "Domů" },
   { href: "/cinnost", label: "Činnost" },
+  { href: "/akce", label: "Akce" },
   { href: "/fotogalerie", label: "Fotogalerie" },
   { href: "/sponzori", label: "Sponzoři" },
   { href: "/kontakty", label: "Kontakty" },
