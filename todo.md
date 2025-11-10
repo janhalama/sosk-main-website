@@ -26,8 +26,8 @@ This is the single source of truth for building the project iteratively from bar
   - [x] `components/navigation/Header.tsx` with accessible nav
   - [x] `components/navigation/Footer.tsx` with organization info
   - [x] Add skip‑to‑content link and visible focus styles
-- [ ] Seed content placeholders
-  - [ ] `content/pages/{doma,cinnost,fotogalerie,sponzori,kontakty}.md` with minimal copy
+- [x] Seed content placeholders
+  - [x] `content/pages/{doma,cinnost,fotogalerie,sponzori,kontakty}.md` with minimal copy
   - [x] `content/posts/` empty folder committed
 - [ ] Add basic lib for content parsing
   - [ ] `lib/content/frontmatter.ts` (read/parse Markdown via gray‑matter)
