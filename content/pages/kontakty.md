@@ -8,13 +8,25 @@ Tělocvičná jednota Sokol Skuhrov
 Skuhrov 61  
 46822 Skuhrov
 
-[Na mapách seznam.cz](https://mapy.cz/zakladni?x=15.2120987&y=50.6786974&z=18&source=addr&id=10223948)
+<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+  <span style="display:inline-flex;align-items:center;gap:8px;">
+    <img src="https://mapy.cz/favicon.ico" alt="" width="20" height="20" />
+    <a href="https://mapy.cz/zakladni?x=15.2120987&y=50.6786974&z=18&source=addr&id=10223948">Na mapách seznam.cz</a>
+  </span>
+  <span aria-hidden="true" style="width:1px;height:20px;background:var(--color-neutral-400);display:inline-block;"></span>
+  <span style="display:inline-flex;align-items:center;gap:8px;">
+    <img src="https://www.google.com/favicon.ico" alt="" width="20" height="20" />
+    <a href="https://www.google.com/maps/place/Skuhrov+61,+468+22+Skuhrov/@50.6786569,15.2099184,17z/data=!3m1!4b1!4m5!3m4!1s0x470eb58f698eb2ad:0xf42c44269635abf7!8m2!3d50.6786569!4d15.2121071">Na mapách google.com</a>
+  </span>
+</div>
 
-[Na mapách google.com](https://www.google.com/maps/place/Skuhrov+61,+468+22+Skuhrov/@50.6786569,15.2099184,17z/data=!3m1!4b1!4m5!3m4!1s0x470eb58f698eb2ad:0xf42c44269635abf7!8m2!3d50.6786569!4d15.2121071)
+---
 
 ## Zájemci o členství
 
 Přihlášku do naší jednoty lze podat online na portálu ČOS.
+
+---
 
 ## Funkcionáři
 
