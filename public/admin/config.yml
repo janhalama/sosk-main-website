@@ -54,26 +54,45 @@ collections:
         widget: markdown
         required: true
 
+  - name: fotogalerie
+    label: Fotogalerie
+    label_singular: Fotogalerie
+    folder: content/fotogalerie
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - name: title
+        label: Titulek
+        widget: string
+        required: true
+      - name: date
+        label: Datum
+        widget: datetime
+        required: true
+        time_format: false
+      - name: image
+        label: Obrázek (volitelné)
+        widget: image
+        required: false
+      - name: summary
+        label: Perex (volitelné)
+        widget: text
+        required: false
+      - name: body
+        label: Obsah
+        widget: markdown
+        required: true
+
   - name: pages
     label: Stránky
     files:
       - label: Činnost
         name: cinnost
         file: content/pages/cinnost.md
-        editor:
-          preview: false
-        fields:
-          - name: title
-            label: Titulek
-            widget: string
-            required: false
-          - name: body
-            label: Obsah
-            widget: markdown
-            required: true
-      - label: Fotogalerie
-        name: fotogalerie
-        file: content/pages/fotogalerie.md
         editor:
           preview: false
         fields:

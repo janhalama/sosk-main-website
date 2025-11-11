@@ -43,7 +43,7 @@ export default async function SponzoriPage() {
         { name: "Drda beads", src: "/images/sponsors/sponzor_drda-beads.jpg" },
       ];
   return (
-    <main className="mx-auto max-w-screen-xl px-4 sm:px-6 md:px-8 py-12">
+    <main className="mx-auto max-w-screen-lg px-4 sm:px-6 md:px-8 py-12">
       <h1 className="text-3xl font-semibold tracking-tight mb-4">{title}</h1>
       <section className="mt-2 mb-10">
         <ul className="grid grid-cols-2 md:grid-cols-3 gap-6">

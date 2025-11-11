@@ -8,15 +8,15 @@ import Link from "next/link";
  */
 export function Footer() {
   return (
-    <footer className="bg-surface border-t border-border">
+    <footer className="bg-blue-900 border-t border-blue-800">
       <div className="mx-auto max-w-screen-lg px-4 sm:px-6 md:px-8 py-8">
-        <div className="flex flex-col gap-3 text-sm text-muted">
-          <p className="text-foreground/80">
+        <div className="flex flex-col gap-3 text-sm text-white">
+          <p>
             © {new Date().getFullYear()} T. J. Sokol Skuhrov
           </p>
           <p>
-            <span className="text-foreground/80">Kontakt: </span>
-            <Link href="/kontakty" className="underline underline-offset-4">
+            <span>Kontakt: </span>
+            <Link href="/kontakty" className="text-white hover:text-blue-200 underline underline-offset-4">
               Kontakty
             </Link>
           </p>
