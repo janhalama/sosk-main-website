@@ -41,6 +41,10 @@ collections:
         widget: datetime
         required: true
         time_format: false
+      - name: author
+        label: Autor (volitelné)
+        widget: string
+        required: false
       - name: image
         label: Obrázek (volitelné)
         widget: image

@@ -34,7 +34,9 @@ export default function RootLayout({
           Přeskočit na obsah
         </a>
         <Header />
-        <main id="main-content">{children}</main>
+        <div className="content-background-wrapper">
+          <main id="main-content">{children}</main>
+        </div>
         <Footer />
       </body>
     </html>

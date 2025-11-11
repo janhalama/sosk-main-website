@@ -71,19 +71,11 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   background-color: var(--color-bg);
-  background-image: 
-    url('/images/falcon-bg.jpg'),
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 10px,
-      rgba(0, 0, 0, 0.02) 10px,
-      rgba(0, 0, 0, 0.02) 20px
-    );
-  background-repeat: no-repeat, repeat;
-  background-position: top center, 0 0;
-  background-size: 1600px auto, auto;
-  background-attachment: scroll, fixed;
+  background-image: url('/images/falcon-bg.jpg');
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 1600px auto;
+  background-attachment: scroll;
   color: var(--color-foreground);
   font-family: var(--font-sans);
   line-height: var(--leading-relaxed);
@@ -156,9 +148,17 @@ article tbody tr:last-child {
   border-bottom: 0;
 }
 
-/* Content areas with semi-transparent background for readability */
+/* Full-width content background pattern from original site */
+.content-background-wrapper {
+  background-color: #c4c4c4;
+  background-image: url('/images/html-bg.png');
+  background-repeat: repeat-x;
+  background-size: 100% auto;
+  width: 100%;
+}
+
+/* Content areas */
 main {
-  background-color: rgba(255, 255, 255, 0.85);
   min-height: calc(100vh - 4rem);
 }
 
@@ -193,4 +193,63 @@ article blockquote {
   padding-left: 1rem;
   color: var(--color-muted);
   margin: 1rem 0;
+}
+
+/* Article content styling for list pages */
+.article-content {
+  line-height: var(--leading-relaxed);
+  text-align: left;
+  max-width: 48rem; /* 768px - matches prose max-width */
+  margin: 0;
+}
+.article-content p {
+  margin-bottom: 1rem;
+}
+.article-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.375rem;
+  margin: 1rem 0;
+  display: block;
+}
+.article-content h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.article-content h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+.article-content h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+.article-content ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+.article-content ol {
+  list-style-type: decimal;
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+.article-content li {
+  margin-bottom: 0.25rem;
+}
+.article-content a {
+  color: var(--color-link);
+  text-decoration: underline;
+}
+.article-content a:hover {
+  color: var(--color-link-hover);
+}
+.article-content strong {
+  font-weight: 600;
 }
