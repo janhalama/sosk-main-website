@@ -29,8 +29,16 @@ function slugFromFilename(filename: string): string {
  */
 async function listFotogalerieFilenames(): Promise<string[]> {
   const dir = getFotogalerieDirectory();
-  const entries = await fs.readdir(dir, { withFileTypes: true });
-  return entries.filter((e) => e.isFile() && /\.md$/i.test(e.name)).map((e) => e.name);
+  try {
+    const entries = await fs.readdir(dir, { withFileTypes: true });
+    return entries.filter((e) => e.isFile() && /\.md$/i.test(e.name)).map((e) => e.name);
+  } catch (error) {
+    // Directory doesn't exist yet, return empty array
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+      return [];
+    }
+    throw error;
+  }
 }
 
 /**
