@@ -1,25 +1,14 @@
-# Decap CMS configuration for Sokol Skuhrov
-# Reference: _docs/project-overview.md, _docs/user-flow.md, _docs/project-rules.md, _docs/ui-rules.md, _docs/theme-rules.md, _docs/tech-stack.md
-#
-# Notes:
-# - Backend uses GitHub. Fill in the "repo" value with "OWNER/REPO".
-# - For local development without OAuth, we enable local_backend.
-# - Media is stored inside the repository under /public/images/uploads.
-
 backend:
   name: github
-  # TODO: Replace with your repository slug: OWNER/REPO
-  repo: OWNER/REPO
+  repo: janhalama/sosk-main-website
   branch: main
-  # OAuth via Next.js API routes:
-  base_url: /api/decap
-  auth_endpoint: /auth
+  base_url: http://localhost:3000
+  auth_endpoint: auth
 
-# Allow local development without OAuth: `npx decap-server` (or `npx decap-cms-proxy-server`)
-local_backend: true
+local_backend: false
 
 publish_mode: simple
-logo_url: /images/sponsors/sponzor_skuhrov-911x1024.png
+logo_url: /logo-sokol.png
 site_url: /
 display_url: /
 
@@ -32,7 +21,6 @@ slug:
   sanitize_replacement: "-"
 
 collections:
-  # News posts (Akce)
   - name: posts
     label: Akce (Novinky)
     label_singular: Akce
@@ -44,44 +32,84 @@ collections:
     editor:
       preview: false
     fields:
-      - { name: title, label: Titulek, widget: string, required: true }
-      - { name: date, label: Datum, widget: datetime, required: true, time_format: false }
-      - { name: image, label: Obrázek (volitelné), widget: image, required: false }
-      - { name: summary, label: Perex (volitelné), widget: text, required: false }
-      # We deliberately omit explicit "slug" in frontmatter; it is derived from filename.
-      - { name: body, label: Obsah, widget: markdown, required: true }
+      - name: title
+        label: Titulek
+        widget: string
+        required: true
+      - name: date
+        label: Datum
+        widget: datetime
+        required: true
+        time_format: false
+      - name: image
+        label: Obrázek (volitelné)
+        widget: image
+        required: false
+      - name: summary
+        label: Perex (volitelné)
+        widget: text
+        required: false
+      - name: body
+        label: Obsah
+        widget: markdown
+        required: true
 
-  # Static pages mapped to existing files
   - name: pages
     label: Stránky
     files:
       - label: Činnost
         name: cinnost
         file: content/pages/cinnost.md
-        editor: { preview: false }
+        editor:
+          preview: false
         fields:
-          - { name: title, label: Titulek, widget: string, required: false }
-          - { name: body, label: Obsah, widget: markdown, required: true }
+          - name: title
+            label: Titulek
+            widget: string
+            required: false
+          - name: body
+            label: Obsah
+            widget: markdown
+            required: true
       - label: Fotogalerie
         name: fotogalerie
         file: content/pages/fotogalerie.md
-        editor: { preview: false }
+        editor:
+          preview: false
         fields:
-          - { name: title, label: Titulek, widget: string, required: false }
-          - { name: body, label: Obsah, widget: markdown, required: true }
+          - name: title
+            label: Titulek
+            widget: string
+            required: false
+          - name: body
+            label: Obsah
+            widget: markdown
+            required: true
       - label: Sponzoři
         name: sponzori
         file: content/pages/sponzori.md
-        editor: { preview: false }
+        editor:
+          preview: false
         fields:
-          - { name: title, label: Titulek, widget: string, required: false }
-          - { name: body, label: Obsah, widget: markdown, required: true }
+          - name: title
+            label: Titulek
+            widget: string
+            required: false
+          - name: body
+            label: Obsah
+            widget: markdown
+            required: true
       - label: Kontakty
         name: kontakty
         file: content/pages/kontakty.md
-        editor: { preview: false }
+        editor:
+          preview: false
         fields:
-          - { name: title, label: Titulek, widget: string, required: false }
-          - { name: body, label: Obsah, widget: markdown, required: true }
-
-
+          - name: title
+            label: Titulek
+            widget: string
+            required: false
+          - name: body
+            label: Obsah
+            widget: markdown
+            required: true

@@ -1,7 +1,7 @@
 /**
- * Decap CMS GitHub OAuth – Callback Endpoint
+ * CMS GitHub OAuth – Callback Endpoint
  * Exchanges ?code for an access token, validates the user against ALLOWED_GH_USERS,
- * and returns a small HTML page that posts the token to the opener (Decap CMS).
+ * and returns a small HTML page that posts the token to the opener (CMS).
  */
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
@@ -13,8 +13,8 @@ function getEnv(name: string): string {
 }
 
 async function exchangeCodeForToken(code: string): Promise<string> {
-  const clientId = getEnv("GITHUB_CLIENT_ID");
-  const clientSecret = getEnv("GITHUB_CLIENT_SECRET");
+  const clientId = getEnv("OAUTH_CLIENT_ID");
+  const clientSecret = getEnv("OAUTH_CLIENT_SECRET");
   const response = await fetch("https://github.com/login/oauth/access_token", {
     method: "POST",
     headers: {
@@ -55,21 +55,52 @@ function isAllowedUser(login: string): boolean {
   return allowed.length === 0 ? false : allowed.includes(login.toLowerCase());
 }
 
-function buildSuccessHtml(token: string): string {
+function buildSuccessHtml(token: string, redirectUrl: string): string {
+  // CMS expects the message in format: 'authorization:github:success:{"token":"..."}'
   const payload = JSON.stringify({ token });
-  // Decap listens for postMessage with this convention for GitHub success:
-  // 'authorization:github:success:{"token":"..."}'
+  const msg = `authorization:github:success:${payload}`;
   return `<!doctype html>
 <html><head><meta charset="utf-8" /><title>Authorized</title></head>
 <body>
 <script>
 (function() {
-  var msg = 'authorization:github:success:' + ${JSON.stringify(payload)};
-  if (window.opener) {
-    window.opener.postMessage(msg, '*');
-    window.close();
-  } else {
-    document.body.innerText = 'Token received. Please close this window.';
+  try {
+    var msg = ${JSON.stringify(msg)};
+    var redirectUrl = ${JSON.stringify(redirectUrl)};
+    var token = ${JSON.stringify(token)};
+    
+    // Try postMessage first (if this is a popup)
+    if (window.opener && !window.opener.closed) {
+      var origin = window.location.origin;
+      
+      // Send to same origin first
+      window.opener.postMessage(msg, origin);
+      // Also try wildcard in case origin doesn't match
+      window.opener.postMessage(msg, '*');
+      
+      // Also try storing in localStorage as fallback
+      try {
+        window.opener.localStorage.setItem('netlify-cms-user', JSON.stringify({
+          token: token,
+          backend: 'github'
+        }));
+      } catch (e) {
+        // Silently fail if localStorage is not accessible
+      }
+      
+      setTimeout(function() {
+        window.close();
+      }, 1000);
+    } else {
+      // Fallback: store in localStorage and redirect
+      localStorage.setItem('netlify-cms-user', JSON.stringify({
+        token: token,
+        backend: 'github'
+      }));
+      window.location.href = redirectUrl;
+    }
+  } catch (e) {
+    document.body.innerHTML = '<p>Error: ' + e.message + '</p>';
   }
 })();
 </script>
@@ -100,10 +131,10 @@ export async function GET(request: Request) {
   const code = url.searchParams.get("code") || "";
   const returnedState = url.searchParams.get("state") || "";
 
-  const store = cookies();
-  const savedState = store.get("decap_oauth_state")?.value || "";
+  const store = await cookies();
+  const savedState = store.get("cms_oauth_state")?.value || "";
   // Invalidate state cookie eagerly
-  store.set("decap_oauth_state", "", { httpOnly: true, maxAge: 0, path: "/" });
+  store.set("cms_oauth_state", "", { httpOnly: true, maxAge: 0, path: "/" });
 
   if (!code) {
     return new NextResponse(buildErrorHtml("Missing ?code param."), {
@@ -122,12 +153,16 @@ export async function GET(request: Request) {
     const token = await exchangeCodeForToken(code);
     const login = await getGithubLogin(token);
     if (!isAllowedUser(login)) {
-      return new NextResponse(buildErrorHtml("User is not allowed."), {
-        headers: { "Content-Type": "text/html; charset=utf-8" },
-        status: 403,
-      });
+      return new NextResponse(
+        buildErrorHtml(`User "${login}" is not allowed. Please contact the administrator.`),
+        {
+          headers: { "Content-Type": "text/html; charset=utf-8" },
+          status: 403,
+        }
+      );
     }
-    return new NextResponse(buildSuccessHtml(token), {
+    const redirectUrl = `${url.origin}/admin`;
+    return new NextResponse(buildSuccessHtml(token, redirectUrl), {
       headers: { "Content-Type": "text/html; charset=utf-8" },
       status: 200,
     });

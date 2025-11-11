@@ -1,7 +1,7 @@
 /**
- * Decap CMS GitHub OAuth – Auth Endpoint
+ * CMS GitHub OAuth – Auth Endpoint
  * Redirects the browser to GitHub's authorize URL with a CSRF state.
- * The callback is handled by /api/decap/callback.
+ * The callback is handled by /api/cms/callback.
  */
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
@@ -14,10 +14,13 @@ function getEnv(name: string): string {
 }
 
 function buildAuthorizeUrl(request: Request, state: string): string {
-  const url = new URL(request.url);
-  const origin = url.origin;
-  const clientId = getEnv("GITHUB_CLIENT_ID");
-  const callback = `${origin}/api/decap/callback`;
+  let origin = process.env.ORIGIN || new URL(request.url).origin;
+  // If ORIGIN doesn't start with http:// or https://, prepend http://
+  if (origin && !origin.startsWith("http://") && !origin.startsWith("https://")) {
+    origin = `http://${origin}`;
+  }
+  const clientId = getEnv("OAUTH_CLIENT_ID");
+  const callback = process.env.COMPLETE_URL || `${origin}/callback`;
   const authorize = new URL("https://github.com/login/oauth/authorize");
   authorize.searchParams.set("client_id", clientId);
   authorize.searchParams.set("redirect_uri", callback);
@@ -29,10 +32,10 @@ function buildAuthorizeUrl(request: Request, state: string): string {
 export async function GET(request: Request) {
   // Generate CSRF state and store in HTTP-only cookie
   const state = crypto.randomBytes(16).toString("hex");
-  const store = cookies();
-  store.set("decap_oauth_state", state, {
+  const store = await cookies();
+  store.set("cms_oauth_state", state, {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
     maxAge: 10 * 60, // 10 minutes

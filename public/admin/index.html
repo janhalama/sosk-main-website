@@ -1,27 +1,14 @@
-<!doctype html>
-<!--
-  Decap CMS Admin – Sokol Skuhrov
-  Purpose: Bootstrap the Decap (Netlify CMS) single‑page admin at /admin
-  Notes:
-  - This minimal shell loads Decap from the official unpkg CDN.
-  - The admin behavior and collections are defined in /public/admin/config.yml.
-  - We use the GitHub backend per _docs/tech-stack.md and _docs/project-overview.md.
--->
+<!DOCTYPE html>
 <html lang="cs">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin | Sokol Skuhrov</title>
     <meta name="robots" content="noindex" />
-    <style>
-      html, body, #nc-root { height: 100%; margin: 0; }
-    </style>
-    <!-- Decap CMS (Netlify CMS fork) -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <link rel="cms-config-url" href="/admin/config.yml" type="text/yaml" />
   </head>
   <body>
-    <div id="nc-root"></div>
+    <div id="cms"></div>
+    <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
   </body>
 </html>
-
-
