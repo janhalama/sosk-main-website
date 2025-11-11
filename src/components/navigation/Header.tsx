@@ -24,7 +24,8 @@ const NAV_ITEMS: NavItem[] = [
 export function Header() {
   return (
     <header className="bg-bg border-b border-border">
-      <div className="mx-auto max-w-screen-lg px-4 sm:px-6 md:px-8 h-16 flex items-center justify-between">
+      <div className="mx-auto max-w-screen-lg px-4 sm:px-6 md:px-8 min-h-[300px] flex flex-col justify-end pb-4">
+        <div className="flex items-center justify-between">
         <div className="min-w-0">
           <Link
             href="/"
@@ -48,6 +49,7 @@ export function Header() {
             ))}
           </ul>
         </nav>
+        </div>
       </div>
     </header>
   );

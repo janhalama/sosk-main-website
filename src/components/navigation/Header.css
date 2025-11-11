@@ -1,10 +1,11 @@
-/* Header background image styles - falcon positioned above menu, not dimmed */
+/* Header background image styles - falcon full height over menu */
 header {
   background-image: url('/images/falcon-bg.jpg');
   background-repeat: no-repeat;
   background-position: top center;
   background-size: 1600px auto;
-  opacity: 1;
+  min-height: 300px;
+  position: relative;
 }
 
 header > div {
@@ -12,15 +13,17 @@ header > div {
   z-index: 1;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   header {
     background-size: 768px auto;
+    min-height: 300px;
   }
 }
 
 @media (max-width: 360px) {
   header {
     background-size: 360px auto;
+    min-height: 300px;
   }
 }
 
