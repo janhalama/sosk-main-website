@@ -1,6 +1,4 @@
-// Simple site footer with organization information and links.
-// Matches neutral surface styling and provides accessible link contrast.
-import Link from "next/link";
+// Simple site footer with organization information.
 
 /** 
  * Footer
@@ -13,12 +11,6 @@ export function Footer() {
         <div className="flex flex-col gap-3 text-sm text-white">
           <p>
             © {new Date().getFullYear()} T. J. Sokol Skuhrov
-          </p>
-          <p>
-            <span>Kontakt: </span>
-            <Link href="/kontakty" className="text-white hover:text-blue-200 underline underline-offset-4">
-              Kontakty
-            </Link>
           </p>
         </div>
       </div>
