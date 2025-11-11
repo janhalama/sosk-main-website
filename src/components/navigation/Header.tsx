@@ -48,7 +48,7 @@ export function Header() {
               <li key={`${item.href}-${item.label}`}>
                 <Link
                   href={item.href}
-                  className="text-white/90 hover:text-white underline-offset-4 hover:underline focus-visible:underline"
+                  className="text-white hover:text-blue-200 underline-offset-4 hover:underline focus-visible:underline"
                 >
                   {item.label}
                 </Link>
