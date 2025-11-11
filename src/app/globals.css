@@ -71,10 +71,35 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   background-color: var(--color-bg);
+  background-image: 
+    url('/images/falcon-bg.jpg'),
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(0, 0, 0, 0.02) 10px,
+      rgba(0, 0, 0, 0.02) 20px
+    );
+  background-repeat: no-repeat, repeat;
+  background-position: top center, 0 0;
+  background-size: 1600px auto, auto;
+  background-attachment: scroll, fixed;
   color: var(--color-foreground);
   font-family: var(--font-sans);
   line-height: var(--leading-relaxed);
   text-rendering: optimizeLegibility;
+}
+
+@media (max-width: 768px) {
+  body {
+    background-size: 768px auto, auto;
+  }
+}
+
+@media (max-width: 360px) {
+  body {
+    background-size: 360px auto, auto;
+  }
 }
 
 /* Accessible focus ring */
@@ -129,6 +154,12 @@ article tbody tr {
 }
 article tbody tr:last-child {
   border-bottom: 0;
+}
+
+/* Content areas with semi-transparent background for readability */
+main {
+  background-color: rgba(255, 255, 255, 0.85);
+  min-height: calc(100vh - 4rem);
 }
 
 /* Markdown typography rhythm and spacing */

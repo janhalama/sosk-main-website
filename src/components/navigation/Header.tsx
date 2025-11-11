@@ -1,6 +1,7 @@
 // Accessible site header with primary navigation for Sokol Skuhrov.
 // Provides brand link and top-level section links. Mobile collapsible menu is deferred.
 import Link from "next/link";
+import "./Header.css";
 
 type NavItem = {
   href: string;
