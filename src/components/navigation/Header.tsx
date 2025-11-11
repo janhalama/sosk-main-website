@@ -23,34 +23,40 @@ const NAV_ITEMS: NavItem[] = [
  */
 export function Header() {
   return (
-    <header className="bg-bg border-b border-border">
-      <div className="mx-auto max-w-screen-lg px-4 sm:px-6 md:px-8 min-h-[300px] flex flex-col justify-end pb-4">
-        <div className="flex items-center justify-between">
-        <div className="min-w-0">
-          <Link
-            href="/"
-            className="text-brand-700 hover:text-brand-800 font-semibold text-lg"
-            aria-label="Sokol Skuhrov – Domů"
-          >
-            Sokol Skuhrov
-          </Link>
-        </div>
-        <nav aria-label="Hlavní navigace" className="ml-6">
+    <header>
+      {/* Falcon image section */}
+      <div className="falcon-header">
+        <div className="mx-auto max-w-screen-lg px-4 sm:px-6 md:px-8 min-h-[300px]"></div>
+      </div>
+      {/* Menu with dark blue background */}
+      <nav 
+        aria-label="Hlavní navigace" 
+        className="bg-blue-900 text-white border-b border-blue-800"
+      >
+        <div className="mx-auto max-w-screen-lg px-4 sm:px-6 md:px-8 h-16 flex items-center justify-between">
+          <div className="min-w-0">
+            <Link
+              href="/"
+              className="text-white hover:text-blue-200 font-semibold text-lg"
+              aria-label="Sokol Skuhrov – Domů"
+            >
+              Sokol Skuhrov
+            </Link>
+          </div>
           <ul className="flex flex-wrap items-center gap-x-4 gap-y-2">
             {NAV_ITEMS.map((item) => (
               <li key={`${item.href}-${item.label}`}>
                 <Link
                   href={item.href}
-                  className="text-foreground/80 hover:text-foreground underline-offset-4 hover:underline focus-visible:underline"
+                  className="text-white/90 hover:text-white underline-offset-4 hover:underline focus-visible:underline"
                 >
                   {item.label}
                 </Link>
               </li>
             ))}
           </ul>
-        </nav>
         </div>
-      </div>
+      </nav>
     </header>
   );
 }
