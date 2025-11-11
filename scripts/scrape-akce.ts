@@ -172,30 +172,24 @@ function findNextPageLink(html: string): string | null {
   const $ = cheerio.load(html);
   
   // Look for "Starší příspěvky" (Older posts) link - this is the next page in Czech WordPress
-  let nextLink: ReturnType<typeof $> | null = null;
-  
-  // Search all links for Czech pagination text
-  $('a').each((_, el) => {
+  let nextLink = $('a').filter((_, el) => {
     const text = $(el).text().trim();
-    if (text.includes("Starší příspěvky") || text.includes("Older posts")) {
-      nextLink = $(el);
-      return false; // break
-    }
-  });
+    return text.includes("Starší příspěvky") || text.includes("Older posts");
+  }).first();
   
   // Try standard pagination selectors
-  if (!nextLink || nextLink.length === 0) {
+  if (nextLink.length === 0) {
     nextLink = $('a[rel="next"]').first();
   }
-  if (!nextLink || nextLink.length === 0) {
+  if (nextLink.length === 0) {
     nextLink = $('.nav-next a').first();
   }
-  if (!nextLink || nextLink.length === 0) {
+  if (nextLink.length === 0) {
     nextLink = $('.pagination .next a').first();
   }
   
   // Look for pagination links with Czech text or arrows
-  if (!nextLink || nextLink.length === 0) {
+  if (nextLink.length === 0) {
     $('.pagination a, .nav-links a, .navigation a, #nav-below a').each((_, el) => {
       const text = $(el).text().trim();
       const href = $(el).attr("href");
@@ -206,7 +200,7 @@ function findNextPageLink(html: string): string | null {
     });
   }
   
-  if (!nextLink || nextLink.length === 0) {
+  if (nextLink.length === 0) {
     return null;
   }
   
