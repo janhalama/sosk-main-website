@@ -8,6 +8,19 @@
   position: relative;
 }
 
+/* Override global link styles for menu navigation */
+nav[aria-label="Hlavní navigace"] a {
+  color: white !important;
+  text-decoration: none !important;
+  display: inline-block;
+}
+
+nav[aria-label="Hlavní navigace"] a:hover {
+  color: rgb(191, 219, 254) !important; /* blue-200 */
+  text-shadow: 0.5px 0 0 currentColor, -0.5px 0 0 currentColor;
+  text-decoration: none !important;
+}
+
 @media (max-width: 767px) {
   header {
     background-size: 768px auto;
