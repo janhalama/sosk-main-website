@@ -13,7 +13,8 @@
     "ui:add": "npx --yes shadcn@latest add",
     "ui:upgrade": "npx --yes shadcn@latest upgrade",
     "cms:server": "npx decap-server",
-    "scrape:akce": "tsx scripts/scrape-akce.ts"
+    "scrape:akce": "tsx scripts/scrape-akce.ts akce",
+    "scrape:fotogalerie": "tsx scripts/scrape-akce.ts fotogalerie"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",

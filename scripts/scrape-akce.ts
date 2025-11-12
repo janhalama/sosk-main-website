@@ -1,10 +1,16 @@
-// Scrapes all "Akce" (events) posts from the WordPress site at sokolskuhrov.cz,
-// downloads media files, converts HTML to Markdown, and saves them to content/posts.
+// Scrapes posts from the WordPress site at sokolskuhrov.cz,
+// downloads media files, converts HTML to Markdown, and saves them to content.
+//
+// Supports both "akce" (events) and "fotogalerie" (photo gallery) categories.
+//
+// Usage:
+//   npm run scrape akce        - Scrape events posts
+//   npm run scrape fotogalerie - Scrape photo gallery posts
 //
 // Features:
 // - Paginates through all archive pages
 // - Extracts title, date, author, content, and images
-// - Downloads images to public/images/akce/
+// - Downloads images to public/images/{category}/
 // - Converts HTML content to Markdown
 // - Generates proper frontmatter with all metadata
 import * as cheerio from "cheerio";
@@ -13,10 +19,19 @@ import * as path from "node:path";
 import { URL } from "node:url";
 import TurndownService from "turndown";
 
-const BASE_URL = "https://www.sokolskuhrov.cz";
-const CATEGORY_URL = `${BASE_URL}/category/akce/`;
-const POSTS_DIR = path.join(process.cwd(), "content", "posts");
-const IMAGES_DIR = path.join(process.cwd(), "public", "images", "akce");
+const BASE_URL = "http://www.sokolskuhrov.cz";
+
+type Category = "akce" | "fotogalerie";
+
+const category = (process.argv[2] || "akce") as Category;
+if (category !== "akce" && category !== "fotogalerie") {
+  console.error(`Invalid category: ${category}. Must be "akce" or "fotogalerie"`);
+  process.exit(1);
+}
+
+const CATEGORY_URL = `${BASE_URL}/category/${category}/`;
+const POSTS_DIR = path.join(process.cwd(), "content", category === "akce" ? "posts" : "fotogalerie");
+const IMAGES_DIR = path.join(process.cwd(), "public", "images", category);
 
 type PostData = {
   title: string;
@@ -101,7 +116,7 @@ async function downloadImage(imageUrl: string, filename: string): Promise<string
   const filePath = path.join(IMAGES_DIR, filename);
   await fs.writeFile(filePath, Buffer.from(buffer));
 
-  return `/images/akce/${filename}`;
+  return `/images/${category}/${filename}`;
 }
 
 function getImageFilename(url: string, slug: string, index: number): string {
@@ -157,6 +172,7 @@ async function extractPostLinks(html: string): Promise<string[]> {
         !fullUrl.includes("/author/") &&
         !fullUrl.includes("/tag/") &&
         !fullUrl.match(/\/akce\/$/i) &&
+        !fullUrl.match(/\/fotogalerie\/$/i) &&
         !seenUrls.has(fullUrl)
       ) {
         links.push(fullUrl);
@@ -369,7 +385,7 @@ async function ensureDirectories(): Promise<void> {
 }
 
 async function main() {
-  console.log("Starting migration of Akce posts...");
+  console.log(`Starting migration of ${category} posts...`);
   await ensureDirectories();
 
   const allPostUrls = new Set<string>();

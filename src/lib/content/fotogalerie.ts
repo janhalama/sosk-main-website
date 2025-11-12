@@ -58,6 +58,7 @@ async function readFotogalerieMetaFromFile(filePath: string): Promise<PostMeta> 
 
   const image = typeof attributes.image === "string" ? attributes.image : undefined;
   const summary = typeof attributes.summary === "string" ? attributes.summary : undefined;
+  const author = typeof attributes.author === "string" ? attributes.author : undefined;
 
   return {
     title,
@@ -65,6 +66,7 @@ async function readFotogalerieMetaFromFile(filePath: string): Promise<PostMeta> 
     slug: derivedSlug,
     image,
     summary,
+    author,
     filePath,
   };
 }
@@ -79,6 +81,57 @@ export async function getAllFotogalerieMeta(): Promise<PostMeta[]> {
     filenames.map((name) => readFotogalerieMetaFromFile(path.join(dir, name))),
   );
   return metas.sort((a, b) => {
+    const aTime = new Date(a.date).getTime();
+    const bTime = new Date(b.date).getTime();
+    return bTime - aTime;
+  });
+}
+
+export type FotogalerieWithContent = PostMeta & {
+  html: string;
+};
+
+/**
+ * Returns all fotogalerie posts with full HTML content sorted by date descending.
+ */
+export async function getAllFotogalerieWithContent(): Promise<FotogalerieWithContent[]> {
+  const dir = getFotogalerieDirectory();
+  const filenames = await listFotogalerieFilenames();
+  const posts = await Promise.all(
+    filenames.map(async (name) => {
+      const filePath = path.join(dir, name);
+      const raw = await fs.readFile(filePath, "utf8");
+      const { attributes, body } = parseMarkdownWithFrontmatter(raw);
+
+      const title = requireString(attributes.title, "title");
+      const date = requireIsoDateString(attributes.date, "date");
+
+      const optionalSlug = typeof attributes.slug === "string" ? attributes.slug : undefined;
+      const derivedSlug = optionalSlug && optionalSlug.trim().length > 0
+        ? normalizeSlug(optionalSlug)
+        : slugFromFilename(name);
+
+      const image = typeof attributes.image === "string" ? attributes.image : undefined;
+      const summary = typeof attributes.summary === "string" ? attributes.summary : undefined;
+      const author = typeof attributes.author === "string" ? attributes.author : undefined;
+
+      const meta: PostMeta = {
+        title,
+        date,
+        slug: derivedSlug,
+        image,
+        summary,
+        author,
+        filePath,
+      };
+
+      const html = await renderMarkdownToHtml(body.trim());
+
+      return { ...meta, html };
+    }),
+  );
+
+  return posts.sort((a, b) => {
     const aTime = new Date(a.date).getTime();
     const bTime = new Date(b.date).getTime();
     return bTime - aTime;
@@ -106,6 +159,7 @@ export async function getFotogalerieBySlug(slug: string): Promise<PostDetail> {
   const date = requireIsoDateString(attributes.date, "date");
   const image = typeof attributes.image === "string" ? attributes.image : undefined;
   const summary = typeof attributes.summary === "string" ? attributes.summary : undefined;
+  const author = typeof attributes.author === "string" ? attributes.author : undefined;
 
   const meta: PostMeta = {
     title,
@@ -113,6 +167,7 @@ export async function getFotogalerieBySlug(slug: string): Promise<PostDetail> {
     slug: normalized,
     image,
     summary,
+    author,
     filePath: candidatePath,
   };
 
