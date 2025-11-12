@@ -11,11 +11,23 @@ export async function GET(request: NextRequest) {
     let config = await readFile(configPath, "utf8");
     
     // Dynamically set base_url based on the request URL
-    const baseUrl = process.env.NODE_ENV === "production" 
-      ? request.nextUrl.origin
-      : "http://localhost:3000";
+    // In production, use VERCEL_URL or request origin
+    let baseUrl: string;
+    if (process.env.NODE_ENV === "production") {
+      // Prefer VERCEL_URL if available (includes protocol)
+      if (process.env.VERCEL_URL) {
+        baseUrl = `https://${process.env.VERCEL_URL}`;
+      } else if (process.env.NEXT_PUBLIC_SITE_URL) {
+        baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
+      } else {
+        // Fallback to request origin
+        baseUrl = request.nextUrl.origin;
+      }
+    } else {
+      baseUrl = "http://localhost:3000";
+    }
     
-    // Replace the base_url in the config
+    // Replace the base_url in the config (handle both quoted and unquoted values)
     config = config.replace(
       /base_url:\s*.+/,
       `base_url: ${baseUrl}`
