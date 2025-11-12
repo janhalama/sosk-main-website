@@ -10,10 +10,11 @@ import "./Header.css";
 type NavItem = {
   href: string;
   label: string;
+  exact?: boolean;
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { href: "/akce", label: "Domů" },
+  { href: "/akce", label: "Domů", exact: true },
   { href: "/cinnost", label: "Činnost" },
   { href: "/akce", label: "Akce" },
   { href: "/fotogalerie", label: "Fotogalerie" },
@@ -24,11 +25,17 @@ const NAV_ITEMS: NavItem[] = [
 /**
  * Checks if a pathname matches a nav item href.
  */
-function isActivePath(pathname: string, href: string): boolean {
-  if (href === "/akce") {
+function isActivePath(pathname: string, item: NavItem): boolean {
+  // "Domů" should only be active on exact /akce (home page, not detail pages)
+  if (item.exact && item.href === "/akce") {
+    return pathname === "/akce";
+  }
+  // "Akce" should be active on /akce and all /akce/* pages
+  if (item.href === "/akce" && !item.exact) {
     return pathname === "/akce" || pathname.startsWith("/akce/");
   }
-  return pathname === href || pathname.startsWith(`${href}/`);
+  // Other items match exact or sub-paths
+  return pathname === item.href || pathname.startsWith(`${item.href}/`);
 }
 
 /** 
@@ -54,7 +61,7 @@ export function Header() {
         <div className="mx-auto max-w-screen-lg px-4 sm:px-6 md:px-8 h-[45px] flex items-center justify-between">
           <ul className="flex flex-wrap items-center gap-x-4 gap-y-2">
             {NAV_ITEMS.map((item) => {
-              const isActive = isActivePath(pathname, item.href);
+              const isActive = isActivePath(pathname, item);
               return (
                 <li key={`${item.href}-${item.label}`}>
                   <Link
