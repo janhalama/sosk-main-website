@@ -6,7 +6,10 @@ import { Header } from "@/components/navigation/Header";
 import { Footer } from "@/components/navigation/Footer";
 
 export const metadata: Metadata = {
-  title: "Tělocvičná jednota Sokol Skuhrov",
+  title: {
+    template: "%s | Tělocvičná Jednota Sokol Skuhrov",
+    default: "Tělocvičná Jednota Sokol Skuhrov",
+  },
   description: "Oficiální web T. J. Sokol Skuhrov. Aktuality, činnost, fotogalerie, sponzoři a kontakty.",
   icons: {
     icon: [

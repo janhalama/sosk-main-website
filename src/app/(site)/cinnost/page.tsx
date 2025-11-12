@@ -1,10 +1,12 @@
 // Činnost page – renders Markdown content from /content/pages/cinnost.md.
 // This file reads Markdown and renders it as static HTML for the Činnost page.
 
-/**
- * Renders the Činnost static page from Markdown content.
- */
+import type { Metadata } from "next";
 import { readMarkdownPageBySlug } from "../../../lib/content/read-page";
+
+export const metadata: Metadata = {
+  title: "Činnost",
+};
 
 export default async function CinnostPage() {
   const { title, html } = await readMarkdownPageBySlug("cinnost");

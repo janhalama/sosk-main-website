@@ -1,11 +1,13 @@
 // Sponzoři page – renders Markdown from /content/pages/sponzori.md and a logo grid.
 // This file reads Markdown for copy and displays a responsive grid of sponsor logos stored locally.
 
-/**
- * Renders the Sponzoři static page from Markdown content and local logo images.
- */
+import type { Metadata } from "next";
 import { readMarkdownPageBySlug } from "../../../lib/content/read-page";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+  title: "Sponzoři",
+};
 
 export default async function SponzoriPage() {
   const { title, html, data } = await readMarkdownPageBySlug("sponzori");

@@ -1,10 +1,12 @@
 // Kontakty page – renders Markdown from /content/pages/kontakty.md.
 // All formatting is controlled inside the Markdown (supports raw HTML blocks).
 
-/**
- * Renders the Kontakty static page from Markdown content.
- */
+import type { Metadata } from "next";
 import { readMarkdownPageBySlug } from "../../../lib/content/read-page";
+
+export const metadata: Metadata = {
+  title: "Kontakty",
+};
 
 export default async function KontaktyPage() {
   const { title, html } = await readMarkdownPageBySlug("kontakty");

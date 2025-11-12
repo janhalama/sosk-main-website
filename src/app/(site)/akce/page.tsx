@@ -2,10 +2,15 @@
 // Uses lib/content/posts to read frontmatter and render full article content with images.
 // Implements pagination with 5 posts per page.
 
+import type { Metadata } from "next";
 import { Calendar, ChevronLeft, ChevronRight, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { getAllPostsWithContent } from "../../../lib/content/posts";
+
+export const metadata: Metadata = {
+  title: "Akce",
+};
 
 const POSTS_PER_PAGE = 5;
 

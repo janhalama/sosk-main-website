@@ -1,8 +1,17 @@
 // Akce detail page – renders a single post parsed from /content/posts by slug.
 // Uses lib/content/posts to read frontmatter and render HTML.
+import type { Metadata } from "next";
 import { Calendar, User } from "lucide-react";
 import Image from "next/image";
 import { getPostBySlug } from "../../../../lib/content/posts";
+
+export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
+  const { slug } = await params;
+  const { meta } = await getPostBySlug(slug);
+  return {
+    title: meta.title,
+  };
+}
 
 type PageParams = {
   params: Promise<{

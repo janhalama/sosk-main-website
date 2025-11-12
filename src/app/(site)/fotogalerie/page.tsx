@@ -2,10 +2,15 @@
 // Uses lib/content/fotogalerie to read frontmatter and render full article content with images.
 // Implements pagination with 5 posts per page.
 
+import type { Metadata } from "next";
 import { Calendar, ChevronLeft, ChevronRight, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { getAllFotogalerieWithContent } from "../../../lib/content/fotogalerie";
+
+export const metadata: Metadata = {
+  title: "Fotogalerie",
+};
 
 const POSTS_PER_PAGE = 5;
 

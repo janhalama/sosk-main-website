@@ -1,5 +1,6 @@
 // Fotogalerie detail page – renders a single post parsed from /content/fotogalerie by slug.
 // Uses lib/content/fotogalerie to read frontmatter and render HTML.
+import type { Metadata } from "next";
 import { Calendar, User } from "lucide-react";
 import Image from "next/image";
 import { getFotogalerieBySlug } from "../../../../lib/content/fotogalerie";
@@ -9,6 +10,14 @@ type PageParams = {
     slug: string;
   }>;
 };
+
+export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
+  const { slug } = await params;
+  const { meta } = await getFotogalerieBySlug(slug);
+  return {
+    title: meta.title,
+  };
+}
 
 /**
  * Renders Fotogalerie detail page using post frontmatter and Markdown HTML.
