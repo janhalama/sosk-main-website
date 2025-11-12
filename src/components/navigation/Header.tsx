@@ -1,6 +1,7 @@
 // Accessible site header with primary navigation for Sokol Skuhrov.
 // Provides brand link and top-level section links. Mobile collapsible menu is deferred.
 import Link from "next/link";
+import { Search } from "./Search";
 import "./Header.css";
 
 type NavItem = {
@@ -35,7 +36,7 @@ export function Header() {
         aria-label="Hlavní navigace" 
         className="bg-blue-900 text-white border-b border-blue-800"
       >
-        <div className="mx-auto max-w-screen-lg px-4 sm:px-6 md:px-8 h-[45px] flex items-center">
+        <div className="mx-auto max-w-screen-lg px-4 sm:px-6 md:px-8 h-[45px] flex items-center justify-between">
           <ul className="flex flex-wrap items-center gap-x-4 gap-y-2">
             {NAV_ITEMS.map((item) => (
               <li key={`${item.href}-${item.label}`}>
@@ -48,6 +49,7 @@ export function Header() {
               </li>
             ))}
           </ul>
+          <Search />
         </div>
       </nav>
     </header>
