@@ -1,11 +1,40 @@
 /* Falcon image section - full height above menu */
 .falcon-header {
+  min-height: 300px;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Repeating pattern background for wide screens */
+.falcon-header-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    url('/images/falcon-pattern-left.jpg'),
+    url('/images/falcon-pattern.jpg');
+  background-repeat: repeat-x, repeat-x;
+  background-position: top left, top right;
+  background-size: 100px auto, 100px auto;
+  z-index: 1;
+}
+
+/* Center falcon image */
+.falcon-header-center {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1600px;
+  height: 100%;
   background-image: url('/images/falcon-bg.jpg');
   background-repeat: no-repeat;
   background-position: top center;
   background-size: 1600px auto;
-  min-height: 300px;
-  position: relative;
+  z-index: 2;
 }
 
 /* Override global link styles for menu navigation */
@@ -22,16 +51,19 @@ nav[aria-label="Hlavní navigace"] a:hover {
 }
 
 @media (max-width: 767px) {
-  header {
+  .falcon-header-center {
+    width: 768px;
     background-size: 768px auto;
-    min-height: 300px;
+  }
+  .falcon-header-pattern {
+    display: none;
   }
 }
 
 @media (max-width: 360px) {
-  header {
+  .falcon-header-center {
+    width: 360px;
     background-size: 360px auto;
-    min-height: 300px;
   }
 }
 

@@ -26,7 +26,9 @@ export function Header() {
     <header>
       {/* Falcon image section */}
       <div className="falcon-header">
-        <div className="mx-auto max-w-screen-lg px-4 sm:px-6 md:px-8 min-h-[300px]"></div>
+        <div className="falcon-header-pattern"></div>
+        <div className="falcon-header-center"></div>
+        <div className="mx-auto max-w-screen-lg px-4 sm:px-6 md:px-8 min-h-[300px] relative z-10"></div>
       </div>
       {/* Menu with dark blue background */}
       <nav 
