@@ -27,32 +27,34 @@ export default async function AkceDetailPage({ params }: PageParams) {
   const { meta, html } = await getPostBySlug(slug);
   return (
     <main className="mx-auto max-w-screen-lg px-4 sm:px-6 md:px-8 py-12">
-      <div className="text-sm text-muted-foreground flex flex-wrap items-center gap-3 mb-4">
-        <span className="flex items-center gap-1.5">
-          <Calendar className="w-4 h-4" aria-hidden="true" />
-          {new Date(meta.date).toLocaleDateString("cs-CZ")}
-        </span>
-        {meta.author ? (
+      <article className="max-w-3xl mx-auto">
+        <div className="text-sm text-muted-foreground flex flex-wrap items-center gap-3 mb-4">
           <span className="flex items-center gap-1.5">
-            <User className="w-4 h-4" aria-hidden="true" />
-            {meta.author}
+            <Calendar className="w-4 h-4" aria-hidden="true" />
+            {new Date(meta.date).toLocaleDateString("cs-CZ")}
           </span>
-        ) : null}
-      </div>
-      <h1 className="text-3xl font-semibold tracking-tight mb-4">{meta.title}</h1>
-      {meta.image ? (
-        <div className="relative w-full aspect-video mb-6">
-          <Image
-            src={meta.image}
-            alt={meta.title}
-            fill
-            className="object-cover rounded-md"
-            priority={false}
-            sizes="100vw"
-          />
+          {meta.author ? (
+            <span className="flex items-center gap-1.5">
+              <User className="w-4 h-4" aria-hidden="true" />
+              {meta.author}
+            </span>
+          ) : null}
         </div>
-      ) : null}
-      <article className="space-y-4 leading-relaxed" dangerouslySetInnerHTML={{ __html: html }} />
+        <h1 className="text-3xl font-semibold tracking-tight mb-4">{meta.title}</h1>
+        {meta.image ? (
+          <div className="relative w-full max-w-3xl mx-auto aspect-video mb-6 rounded-md overflow-hidden">
+            <Image
+              src={meta.image}
+              alt={meta.title}
+              fill
+              className="object-cover"
+              priority={false}
+              sizes="(max-width: 768px) 100vw, 768px"
+            />
+          </div>
+        ) : null}
+        <div className="space-y-4 leading-relaxed article-content" dangerouslySetInnerHTML={{ __html: html }} />
+      </article>
     </main>
   );
 }
