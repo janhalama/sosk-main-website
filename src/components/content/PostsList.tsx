@@ -1,6 +1,9 @@
-// Posts list component that renders a paginated list of posts.
+// Posts list component that renders a list of posts with a "Load Next" button.
 // Used by both the home page and the Akce page to display news posts.
-import { Calendar, ChevronLeft, ChevronRight, User } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { Calendar, Plus, User, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { PostWithContent } from "../../lib/content/posts";
@@ -13,13 +16,38 @@ type PostsListProps = {
 };
 
 /**
- * Renders a paginated list of posts with images, dates, and content.
+ * Renders a list of posts with images, dates, and content, with a "Load Next" button.
+ * The button loads and appends the next page's posts to the current list.
  */
-export function PostsList({ posts, currentPage, totalPages, basePath }: PostsListProps) {
+export function PostsList({ posts: initialPosts, currentPage: initialPage, totalPages: initialTotalPages, basePath }: PostsListProps) {
+  const [allPosts, setAllPosts] = useState<PostWithContent[]>(initialPosts);
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [totalPages] = useState(initialTotalPages);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLoadMore = async () => {
+    if (isLoading || currentPage >= totalPages) return;
+
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/api/posts?page=${currentPage + 1}`);
+      if (!response.ok) {
+        throw new Error("Failed to load posts");
+      }
+      const data = await response.json();
+      setAllPosts((prev) => [...prev, ...data.posts]);
+      setCurrentPage(data.currentPage);
+    } catch (error) {
+      console.error("Error loading more posts:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <ul className="space-y-8">
-        {posts.map((post) => (
+        {allPosts.map((post) => (
           <li key={post.slug}>
             <article className="max-w-3xl mx-auto">
               <div className="text-sm flex flex-wrap items-center gap-3 mb-3" style={{ color: 'var(--color-brand-700)' }}>
@@ -60,41 +88,39 @@ export function PostsList({ posts, currentPage, totalPages, basePath }: PostsLis
         ))}
       </ul>
       
-      {totalPages > 1 && (
-        <nav className="mt-12 flex items-center justify-center gap-4" aria-label="Pagination">
-          {currentPage > 1 ? (
-            <Link
-              href={currentPage === 2 ? basePath : `${basePath}?page=${currentPage - 1}`}
-              className="flex items-center gap-1 px-4 py-2 border rounded-md hover:bg-surface transition-colors"
-            >
-              <ChevronLeft className="w-4 h-4" aria-hidden="true" />
-              <span>Předchozí</span>
-            </Link>
-          ) : (
-            <span className="flex items-center gap-1 px-4 py-2 border rounded-md text-muted-foreground opacity-50 cursor-not-allowed">
-              <ChevronLeft className="w-4 h-4" aria-hidden="true" />
-              <span>Předchozí</span>
-            </span>
-          )}
-          
-          <span className="text-sm text-muted-foreground">
-            Stránka {currentPage} z {totalPages}
-          </span>
-          
-          {currentPage < totalPages ? (
-            <Link
-              href={`${basePath}?page=${currentPage + 1}`}
-              className="flex items-center gap-1 px-4 py-2 border rounded-md hover:bg-surface transition-colors"
-            >
-              <span>Další</span>
-              <ChevronRight className="w-4 h-4" aria-hidden="true" />
-            </Link>
-          ) : (
-            <span className="flex items-center gap-1 px-4 py-2 border rounded-md text-muted-foreground opacity-50 cursor-not-allowed">
-              <span>Další</span>
-              <ChevronRight className="w-4 h-4" aria-hidden="true" />
-            </span>
-          )}
+      {currentPage < totalPages && (
+        <nav className="mt-12 flex items-center justify-center" aria-label="Load more">
+          <button
+            onClick={handleLoadMore}
+            disabled={isLoading}
+            className="flex items-center gap-2 px-6 py-3 rounded-md transition-colors font-medium cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{
+              backgroundColor: isLoading ? 'var(--color-brand-400)' : 'var(--color-brand-600)',
+              color: '#ffffff',
+            }}
+            onMouseEnter={(e) => {
+              if (!isLoading) {
+                e.currentTarget.style.backgroundColor = 'var(--color-brand-700)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!isLoading) {
+                e.currentTarget.style.backgroundColor = 'var(--color-brand-600)';
+              }
+            }}
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
+                <span>Načítání...</span>
+              </>
+            ) : (
+              <>
+                <span>Načíst další</span>
+                <Plus className="w-5 h-5" aria-hidden="true" />
+              </>
+            )}
+          </button>
         </nav>
       )}
     </>
