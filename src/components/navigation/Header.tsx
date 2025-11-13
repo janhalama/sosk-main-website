@@ -130,24 +130,24 @@ export function Header() {
                 isMenuOpen ? "block" : "hidden md:flex"
               }`}
             >
-              <ul className="flex flex-col md:flex-row md:flex-wrap md:items-center gap-x-4 gap-y-2 py-2 md:py-0">
-                {NAV_ITEMS.map((item) => {
-                  const isActive = isActivePath(pathname, item);
-                  return (
-                    <li key={`${item.href}-${item.label}`}>
-                      <Link
-                        href={item.href}
-                        className={`block px-4 py-2 md:px-0 md:py-0 text-white hover:text-blue-200 hover:bg-blue-800 md:hover:bg-transparent focus-visible:font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-inset md:focus-visible:ring-offset-2 md:focus-visible:ring-offset-blue-900 ${
-                          isActive ? "font-bold bg-blue-800 md:bg-transparent" : ""
-                        }`}
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        {item.label}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
+            <ul className="flex flex-col md:flex-row md:flex-wrap md:items-center gap-x-4 gap-y-0 md:gap-y-2 py-2 md:py-0">
+              {NAV_ITEMS.map((item) => {
+                const isActive = isActivePath(pathname, item);
+                return (
+                  <li key={`${item.href}-${item.label}`} className="w-full md:w-auto">
+                    <Link
+                      href={item.href}
+                      className={`block w-full px-4 py-4 md:px-0 md:py-0 text-white hover:text-blue-200 hover:bg-blue-800 md:hover:bg-transparent focus-visible:font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-inset md:focus-visible:ring-offset-2 md:focus-visible:ring-offset-blue-900 ${
+                        isActive ? "font-bold bg-blue-800 md:bg-transparent" : ""
+                      }`}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
             </div>
           </div>
           {/* Search - always on the right side */}
