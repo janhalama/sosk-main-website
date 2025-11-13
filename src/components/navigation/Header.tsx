@@ -2,7 +2,7 @@
 // Provides brand link and top-level section links with responsive hamburger menu on mobile.
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, startTransition } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
@@ -50,8 +50,15 @@ export function Header() {
   const menuRef = useRef<HTMLDivElement>(null);
 
   // Close menu when pathname changes (navigation occurred)
+  const prevPathnameRef = useRef(pathname);
   useEffect(() => {
-    setIsMenuOpen(false);
+    if (prevPathnameRef.current !== pathname) {
+      prevPathnameRef.current = pathname;
+      // Use startTransition to avoid calling setState synchronously in effect
+      startTransition(() => {
+        setIsMenuOpen(false);
+      });
+    }
   }, [pathname]);
 
   // Close menu on outside click

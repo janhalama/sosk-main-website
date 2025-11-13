@@ -332,7 +332,7 @@ async function scrapePost(postUrl: string): Promise<PostData> {
   });
 
   const htmlContent = contentEl.html() || "";
-  let markdown = turndownService.turndown(htmlContent);
+  const markdown = turndownService.turndown(htmlContent);
 
   const summaryEl = $(".entry-summary, .post-excerpt, .excerpt").first();
   let summary: string | undefined;
@@ -437,7 +437,7 @@ async function main() {
           pageNumber++;
           continue;
         }
-      } catch (error) {
+      } catch {
         // Page doesn't exist, we're done
       }
       console.log("No more pages found or reached end of pagination");

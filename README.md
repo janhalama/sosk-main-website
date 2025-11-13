@@ -19,7 +19,7 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ## Admin
 
-Edit content via `/admin` (Decap CMS with GitHub OAuth).
+Edit content via `/admin` (Sveltia CMS with GitHub OAuth).
 
 ## Deploy
 

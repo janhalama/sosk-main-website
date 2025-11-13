@@ -72,9 +72,6 @@ function searchPosts(posts: SearchablePost[], query: string): SearchResult[] {
     return [];
   }
 
-  const normalizedQuery = normalizeForSearch(query.trim());
-  const queryWords = normalizedQuery.split(/\s+/).filter((w) => w.length > 0);
-
   const results: SearchResult[] = posts
     .map((post) => ({
       ...post,
