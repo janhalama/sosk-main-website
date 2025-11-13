@@ -36,8 +36,19 @@ export function requireString(value: unknown, field: string): string {
 /**
  * Validates an ISO-like date string; returns the normalized value on success.
  * Accepts YYYY-MM-DD or full ISO; rejects invalid dates.
+ * Also handles Date objects (from gray-matter parsing unquoted dates).
  */
 export function requireIsoDateString(value: unknown, field: string): string {
+  // Handle Date objects (gray-matter converts unquoted dates to Date objects)
+  if (value instanceof Date) {
+    if (Number.isNaN(value.getTime())) {
+      throw new Error(`Invalid frontmatter: "${field}" must be a valid ISO date string.`);
+    }
+    // Convert Date to ISO string (YYYY-MM-DD format)
+    return value.toISOString().split('T')[0];
+  }
+  
+  // Handle string values
   const input = requireString(value, field);
   const date = new Date(input);
   if (Number.isNaN(date.getTime())) {

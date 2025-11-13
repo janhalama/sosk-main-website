@@ -98,13 +98,26 @@ async function readPostMetaFromFile(filePath: string): Promise<PostMeta> {
 
 /**
  * Returns all posts' metadata sorted by date descending.
+ * Posts that fail to parse are skipped and logged.
  */
 export async function getAllPostsMeta(): Promise<PostMeta[]> {
   const dir = getPostsDirectory();
   const filenames = await listPostFilenames();
-  const metas = await Promise.all(
+  const results = await Promise.allSettled(
     filenames.map((name) => readPostMetaFromFile(path.join(dir, name))),
   );
+  
+  // Filter out failed posts and log errors
+  const metas: PostMeta[] = [];
+  for (let i = 0; i < results.length; i++) {
+    const result = results[i];
+    if (result.status === "fulfilled") {
+      metas.push(result.value);
+    } else {
+      console.error(`Failed to load post metadata ${filenames[i]}:`, result.reason);
+    }
+  }
+  
   return metas.sort((a, b) => {
     const aTime = new Date(a.date).getTime();
     const bTime = new Date(b.date).getTime();
@@ -122,7 +135,7 @@ export type PostWithContent = PostMeta & {
 export async function getAllPostsWithContent(): Promise<PostWithContent[]> {
   const dir = getPostsDirectory();
   const filenames = await listPostFilenames();
-  const posts = await Promise.all(
+  const results = await Promise.allSettled(
     filenames.map(async (name) => {
       const filePath = path.join(dir, name);
       const raw = await fs.readFile(filePath, "utf8");
@@ -155,6 +168,17 @@ export async function getAllPostsWithContent(): Promise<PostWithContent[]> {
       return { ...meta, html };
     }),
   );
+
+  // Filter out failed posts and log errors
+  const posts: PostWithContent[] = [];
+  for (let i = 0; i < results.length; i++) {
+    const result = results[i];
+    if (result.status === "fulfilled") {
+      posts.push(result.value);
+    } else {
+      console.error(`Failed to load post ${filenames[i]}:`, result.reason);
+    }
+  }
 
   return posts.sort((a, b) => {
     const aTime = new Date(a.date).getTime();
