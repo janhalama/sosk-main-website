@@ -13,6 +13,7 @@ type NavItem = {
   href: string;
   label: string;
   exact?: boolean;
+  external?: boolean;
 };
 
 const NAV_ITEMS: NavItem[] = [
@@ -22,6 +23,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/fotogalerie", label: "Fotogalerie" },
   { href: "/sponzori", label: "Sponzoři" },
   { href: "/kontakty", label: "Kontakty" },
+  { href: "https://lyzari.sokolskuhrov.cz/home", label: "Lyžaři", external: true },
 ];
 
 /**
@@ -139,18 +141,32 @@ export function Header() {
             >
             <ul className="flex flex-col md:flex-row md:flex-wrap md:items-center gap-x-4 gap-y-0 md:gap-y-2 py-2 md:py-0">
               {NAV_ITEMS.map((item) => {
-                const isActive = isActivePath(pathname, item);
+                const isActive = !item.external && isActivePath(pathname, item);
+                const linkClassName = `block w-full px-4 py-4 md:px-0 md:py-0 text-white hover:text-blue-200 hover:bg-blue-800 md:hover:bg-transparent focus-visible:font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-inset md:focus-visible:ring-offset-2 md:focus-visible:ring-offset-blue-900 ${
+                  isActive ? "font-bold bg-blue-800 md:bg-transparent" : ""
+                }`;
+                
                 return (
                   <li key={`${item.href}-${item.label}`} className="w-full md:w-auto">
-                    <Link
-                      href={item.href}
-                      className={`block w-full px-4 py-4 md:px-0 md:py-0 text-white hover:text-blue-200 hover:bg-blue-800 md:hover:bg-transparent focus-visible:font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-inset md:focus-visible:ring-offset-2 md:focus-visible:ring-offset-blue-900 ${
-                        isActive ? "font-bold bg-blue-800 md:bg-transparent" : ""
-                      }`}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
+                    {item.external ? (
+                      <a
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={linkClassName}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {item.label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className={linkClassName}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                    )}
                   </li>
                 );
               })}
