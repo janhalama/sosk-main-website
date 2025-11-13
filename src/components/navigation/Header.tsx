@@ -28,9 +28,9 @@ const NAV_ITEMS: NavItem[] = [
  * Checks if a pathname matches a nav item href.
  */
 function isActivePath(pathname: string, item: NavItem): boolean {
-  // "Domů" should be active on root / or /akce (since / redirects to /akce)
+  // "Domů" should only be active on root / (home page)
   if (item.exact && item.href === "/") {
-    return pathname === "/" || pathname === "/akce";
+    return pathname === "/";
   }
   // "Akce" should be active on /akce and all /akce/* pages
   if (item.href === "/akce") {
