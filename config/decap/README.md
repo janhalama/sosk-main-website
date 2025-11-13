@@ -22,26 +22,25 @@ npx decap-server
 
 Then open `/admin` on `http://localhost:3000`.
 
-## GitHub OAuth (Planned)
+## GitHub OAuth (Implemented)
 
 Backend: `github` with direct commits to `main` (`publish_mode: simple`).
 
-Environment variables (to be configured in Vercel and locally):
-- `GITHUB_CLIENT_ID`
-- `GITHUB_CLIENT_SECRET`
+Environment variables (configured in Vercel and locally):
+- `OAUTH_CLIENT_ID` – GitHub OAuth app client ID
+- `OAUTH_CLIENT_SECRET` – GitHub OAuth app client secret
 - `ALLOWED_GH_USERS` – comma‑separated GitHub usernames allowed to log in
 
-Next.js API routes (skeleton, not yet implemented):
-- `GET /api/decap/auth` – start OAuth flow
-- `GET /api/decap/callback` – OAuth callback; validate `ALLOWED_GH_USERS`
-- `POST /api/decap/token` – exchange code for token (server‑side), return to CMS
+Next.js API routes (implemented):
+- `GET /api/cms/auth` – start OAuth flow, redirects to GitHub
+- `GET /api/cms/callback` – OAuth callback; exchanges code for token, validates `ALLOWED_GH_USERS`
 
-`public/admin/config.yml` will reference these when implemented:
+`public/admin/config.yml` references these via rewrites in `next.config.ts`:
 ```yaml
 backend:
   name: github
-  # base_url: /api/decap
-  # auth_endpoint: /auth
+  base_url: <dynamically set by /api/admin/config>
+  auth_endpoint: auth  # rewrites to /api/cms/auth
 ```
 
 ## Media

@@ -13,17 +13,17 @@ export async function GET(request: NextRequest) {
     // Dynamically set base_url based on the request URL
     // In production, use VERCEL_URL or request origin
     let baseUrl: string;
-    if (process.env.NODE_ENV === "production") {
-      // Prefer VERCEL_URL if available (includes protocol)
-      if (process.env.VERCEL_URL) {
-        baseUrl = `https://${process.env.VERCEL_URL}`;
-      } else if (process.env.NEXT_PUBLIC_SITE_URL) {
-        baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
-      } else {
-        // Fallback to request origin
-        baseUrl = request.nextUrl.origin;
-      }
+    
+    // Check for Vercel environment first (most reliable on Vercel)
+    if (process.env.VERCEL_URL) {
+      baseUrl = `https://${process.env.VERCEL_URL}`;
+    } else if (process.env.NEXT_PUBLIC_SITE_URL) {
+      baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
+    } else if (process.env.NODE_ENV === "production") {
+      // Fallback to request origin in production
+      baseUrl = request.nextUrl.origin;
     } else {
+      // Development fallback
       baseUrl = "http://localhost:3000";
     }
     
