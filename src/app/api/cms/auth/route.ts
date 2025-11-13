@@ -42,7 +42,12 @@ function buildAuthorizeUrl(request: Request, state: string): string {
   const authorize = new URL("https://github.com/login/oauth/authorize");
   authorize.searchParams.set("client_id", clientId);
   authorize.searchParams.set("redirect_uri", callback);
-  authorize.searchParams.set("scope", "repo");
+  // public_repo scope is REQUIRED - Decap CMS needs to commit files via GitHub API
+  // Without a scope, we can only read user info, not commit to repositories
+  // public_repo grants read/write access to public repositories only (minimal scope needed)
+  // The user must have write access to the repository branch (main) for commits to succeed
+  // Note: GitHub has deprecated public_repo but it still works. If it stops working, we'd need "repo" scope
+  authorize.searchParams.set("scope", "public_repo");
   authorize.searchParams.set("state", state);
   return authorize.toString();
 }
