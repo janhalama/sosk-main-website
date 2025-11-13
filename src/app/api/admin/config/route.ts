@@ -10,28 +10,50 @@ export async function GET(request: NextRequest) {
     const configPath = join(process.cwd(), "public", "admin", "config.yml");
     let config = await readFile(configPath, "utf8");
     
-    // Dynamically set base_url based on the request URL
-    // In production, use VERCEL_URL or request origin
+    // Extract default production URL from config file as fallback
+    const defaultUrlMatch = config.match(/base_url:\s*(.+)/);
+    const defaultProductionUrl = defaultUrlMatch?.[1]?.trim() || "https://sosk-main-website.vercel.app";
+    
+    // Dynamically set base_url based on environment
+    // Priority: NEXT_PUBLIC_SITE_URL > VERCEL_PROJECT_PRODUCTION_URL > VERCEL_URL > request origin > default production > localhost
+    const requestOrigin = request.nextUrl.origin;
     let baseUrl: string;
     
-    // Check for Vercel environment first (most reliable on Vercel)
-    if (process.env.VERCEL_URL) {
-      baseUrl = `https://${process.env.VERCEL_URL}`;
-    } else if (process.env.NEXT_PUBLIC_SITE_URL) {
+    if (process.env.NEXT_PUBLIC_SITE_URL) {
+      // Explicit production URL (highest priority)
       baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
-    } else if (process.env.NODE_ENV === "production") {
-      // Fallback to request origin in production
-      baseUrl = request.nextUrl.origin;
-    } else {
-      // Development fallback
+    } else if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+      // Vercel production URL (for production deployments)
+      baseUrl = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+    } else if (process.env.VERCEL_URL) {
+      // Vercel deployment URL (preview or production)
+      baseUrl = `https://${process.env.VERCEL_URL}`;
+    } else if (requestOrigin && !requestOrigin.includes("localhost")) {
+      // Use request origin if it's not localhost (production or preview)
+      baseUrl = requestOrigin;
+    } else if (requestOrigin.includes("localhost")) {
+      // Development: use localhost
       baseUrl = "http://localhost:3000";
+    } else {
+      // Fallback to production URL from config
+      baseUrl = defaultProductionUrl;
     }
     
-    // Replace the base_url in the config (handle both quoted and unquoted values)
+    // Replace the base_url in the config
+    // Match: base_url: <any value> (handles comments on previous line and preserves indentation)
     config = config.replace(
-      /base_url:\s*.+/,
-      `base_url: ${baseUrl}`
+      /^(\s*)base_url:\s*.+$/m,
+      (match, indent) => `${indent}base_url: ${baseUrl}`
     );
+    
+    // Verify replacement worked (fallback if regex didn't match)
+    if (!config.includes(`base_url: ${baseUrl}`)) {
+      // Fallback: replace any base_url line
+      config = config.replace(
+        /base_url:\s*.+/,
+        `base_url: ${baseUrl}`
+      );
+    }
     
     return new NextResponse(config, {
       headers: {
