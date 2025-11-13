@@ -14,7 +14,7 @@ type NavItem = {
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { href: "/akce", label: "Domů", exact: true },
+  { href: "/", label: "Domů", exact: true },
   { href: "/cinnost", label: "Činnost" },
   { href: "/akce", label: "Akce" },
   { href: "/fotogalerie", label: "Fotogalerie" },
@@ -26,12 +26,12 @@ const NAV_ITEMS: NavItem[] = [
  * Checks if a pathname matches a nav item href.
  */
 function isActivePath(pathname: string, item: NavItem): boolean {
-  // "Domů" should only be active on exact /akce (home page, not detail pages)
-  if (item.exact && item.href === "/akce") {
-    return pathname === "/akce";
+  // "Domů" should be active on root / or /akce (since / redirects to /akce)
+  if (item.exact && item.href === "/") {
+    return pathname === "/" || pathname === "/akce";
   }
   // "Akce" should be active on /akce and all /akce/* pages
-  if (item.href === "/akce" && !item.exact) {
+  if (item.href === "/akce") {
     return pathname === "/akce" || pathname.startsWith("/akce/");
   }
   // Other items match exact or sub-paths
