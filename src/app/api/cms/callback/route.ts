@@ -23,13 +23,19 @@ async function exchangeCodeForToken(code: string): Promise<string> {
     },
     body: JSON.stringify({ client_id: clientId, client_secret: clientSecret, code }),
   });
-  if (!response.ok) {
-    throw new Error(`GitHub token exchange failed with ${response.status}`);
+  
+  const data = (await response.json()) as { 
+    access_token?: string; 
+    error?: string; 
+    error_description?: string;
+    error_uri?: string;
+  };
+  
+  if (!response.ok || !data.access_token) {
+    const errorMsg = data.error_description || data.error || `HTTP ${response.status}`;
+    throw new Error(`GitHub token exchange failed: ${errorMsg}`);
   }
-  const data = (await response.json()) as { access_token?: string; error?: string };
-  if (!data.access_token) {
-    throw new Error(`GitHub token missing: ${data.error || "unknown error"}`);
-  }
+  
   return data.access_token;
 }
 
@@ -41,9 +47,17 @@ async function getGithubLogin(accessToken: string): Promise<string> {
     },
     cache: "no-store",
   });
-  if (!response.ok) throw new Error(`GitHub user lookup failed: ${response.status}`);
+  
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => "");
+    throw new Error(`GitHub user lookup failed: ${response.status} ${errorText || ""}`);
+  }
+  
   const user = (await response.json()) as { login?: string };
-  if (!user.login) throw new Error("GitHub user login missing.");
+  if (!user.login) {
+    throw new Error("GitHub user login missing in API response.");
+  }
+  
   return user.login;
 }
 
@@ -128,30 +142,52 @@ function buildErrorHtml(errorMessage: string): string {
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
-  const code = url.searchParams.get("code") || "";
-  const returnedState = url.searchParams.get("state") || "";
-
-  const store = await cookies();
-  const savedState = store.get("cms_oauth_state")?.value || "";
-  // Invalidate state cookie eagerly
-  store.set("cms_oauth_state", "", { httpOnly: true, maxAge: 0, path: "/" });
-
-  if (!code) {
-    return new NextResponse(buildErrorHtml("Missing ?code param."), {
-      headers: { "Content-Type": "text/html; charset=utf-8" },
-      status: 400,
-    });
-  }
-  if (!savedState || returnedState !== savedState) {
-    return new NextResponse(buildErrorHtml("Invalid OAuth state."), {
-      headers: { "Content-Type": "text/html; charset=utf-8" },
-      status: 400,
-    });
-  }
-
+  
   try {
+    const code = url.searchParams.get("code") || "";
+    const returnedState = url.searchParams.get("state") || "";
+    const errorParam = url.searchParams.get("error");
+
+    // Handle GitHub OAuth errors
+    if (errorParam) {
+      const errorDescription = url.searchParams.get("error_description") || errorParam;
+      return new NextResponse(buildErrorHtml(`OAuth error: ${errorDescription}`), {
+        headers: { "Content-Type": "text/html; charset=utf-8" },
+        status: 400,
+      });
+    }
+
+    // Validate required parameters
+    if (!code) {
+      return new NextResponse(buildErrorHtml("Missing ?code param."), {
+        headers: { "Content-Type": "text/html; charset=utf-8" },
+        status: 400,
+      });
+    }
+
+    // Get and validate state cookie
+    const store = await cookies();
+    const savedState = store.get("cms_oauth_state")?.value || "";
+    // Invalidate state cookie eagerly
+    store.set("cms_oauth_state", "", { httpOnly: true, maxAge: 0, path: "/" });
+
+    if (!savedState || returnedState !== savedState) {
+      return new NextResponse(
+        buildErrorHtml("Invalid OAuth state. Please try logging in again."),
+        {
+          headers: { "Content-Type": "text/html; charset=utf-8" },
+          status: 400,
+        }
+      );
+    }
+
+    // Exchange code for token
     const token = await exchangeCodeForToken(code);
+    
+    // Get GitHub user login
     const login = await getGithubLogin(token);
+    
+    // Validate user is allowed
     if (!isAllowedUser(login)) {
       return new NextResponse(
         buildErrorHtml(`User "${login}" is not allowed. Please contact the administrator.`),
@@ -161,13 +197,29 @@ export async function GET(request: Request) {
         }
       );
     }
+
+    // Success - return token to CMS
     const redirectUrl = `${url.origin}/admin`;
     return new NextResponse(buildSuccessHtml(token, redirectUrl), {
       headers: { "Content-Type": "text/html; charset=utf-8" },
       status: 200,
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Unknown error";
+    // Improved error handling with more context
+    let message = "Unknown error";
+    if (error instanceof Error) {
+      message = error.message;
+      // Check for common error patterns
+      if (message.includes("Missing required env")) {
+        message = `${message}. Please check your environment variables.`;
+      } else if (message.includes("GitHub token exchange")) {
+        message = `${message}. Verify your OAuth app callback URL matches: ${url.origin}/callback`;
+      }
+    }
+    
+    // Log error for debugging (in production, this would go to logs)
+    console.error("CMS callback error:", error);
+    
     return new NextResponse(buildErrorHtml(message), {
       headers: { "Content-Type": "text/html; charset=utf-8" },
       status: 500,
