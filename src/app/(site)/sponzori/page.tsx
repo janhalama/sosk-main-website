@@ -95,6 +95,7 @@ export default async function SponzoriPage() {
           </li>
         </ul>
       </section>
+      {/* HTML is sanitized server-side via rehype-sanitize before rendering */}
       <article
         className="space-y-4 leading-relaxed"
         dangerouslySetInnerHTML={{ __html: html }}

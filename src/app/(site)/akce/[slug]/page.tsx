@@ -53,6 +53,7 @@ export default async function AkceDetailPage({ params }: PageParams) {
             />
           </div>
         ) : null}
+        {/* HTML is sanitized server-side via rehype-sanitize before rendering */}
         <div className="space-y-4 leading-relaxed article-content" dangerouslySetInnerHTML={{ __html: html }} />
       </article>
     </main>

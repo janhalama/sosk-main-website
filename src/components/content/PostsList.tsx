@@ -79,6 +79,7 @@ export function PostsList({ posts: initialPosts, currentPage: initialPage, total
                   />
                 </div>
               ) : null}
+              {/* HTML is sanitized server-side via rehype-sanitize before rendering */}
               <div 
                 className="article-content"
                 dangerouslySetInnerHTML={{ __html: post.html }}

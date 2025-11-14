@@ -52,6 +52,7 @@ export default async function FotogalerieDetailPage({ params }: PageParams) {
           />
         </div>
       ) : null}
+      {/* HTML is sanitized server-side via rehype-sanitize before rendering */}
       <article className="space-y-4 leading-relaxed" dangerouslySetInnerHTML={{ __html: html }} />
     </main>
   );
