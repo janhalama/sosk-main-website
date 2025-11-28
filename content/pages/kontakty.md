@@ -24,7 +24,7 @@ Skuhrov 61
 
 ## Zájemci o členství
 
-Přihlášku do naší jednoty lze podat online na portálu ČOS.
+Přihlášku do naší jednoty lze podat online na <a href="https://www.ecz-sokol.cz/clen/prihlaska/66112931">portálu ČOS</a>.
 
 ---
 
