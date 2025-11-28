@@ -4,40 +4,15 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { NextRequest, NextResponse } from "next/server";
+import { getSiteUrl } from "@/lib/env";
 
-export async function GET(request: NextRequest) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function GET(_request: NextRequest) {
   try {
     const configPath = join(process.cwd(), "public", "admin", "config.yml");
     let config = await readFile(configPath, "utf8");
     
-    // Extract default production URL from config file as fallback
-    const defaultUrlMatch = config.match(/base_url:\s*(.+)/);
-    const defaultProductionUrl = defaultUrlMatch?.[1]?.trim() || "https://sosk-main-website.vercel.app";
-    
-    // Dynamically set base_url based on environment
-    // Priority: NEXT_PUBLIC_SITE_URL > VERCEL_PROJECT_PRODUCTION_URL > VERCEL_URL > request origin > default production > localhost
-    const requestOrigin = request.nextUrl.origin;
-    let baseUrl: string;
-    
-    if (process.env.NEXT_PUBLIC_SITE_URL) {
-      // Explicit production URL (highest priority)
-      baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
-    } else if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-      // Vercel production URL (for production deployments)
-      baseUrl = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
-    } else if (process.env.VERCEL_URL) {
-      // Vercel deployment URL (preview or production)
-      baseUrl = `https://${process.env.VERCEL_URL}`;
-    } else if (requestOrigin && !requestOrigin.includes("localhost")) {
-      // Use request origin if it's not localhost (production or preview)
-      baseUrl = requestOrigin;
-    } else if (requestOrigin.includes("localhost")) {
-      // Development: use localhost
-      baseUrl = "http://localhost:3000";
-    } else {
-      // Fallback to production URL from config
-      baseUrl = defaultProductionUrl;
-    }
+    const baseUrl = getSiteUrl();
     
     // Replace the base_url in the config
     // Match: base_url: <any value> (handles comments on previous line and preserves indentation)

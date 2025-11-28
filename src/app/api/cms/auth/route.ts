@@ -6,6 +6,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import crypto from "node:crypto";
+import { getSiteUrl } from "@/lib/env";
 
 function getEnv(name: string): string {
   const value = process.env[name];
@@ -14,29 +15,7 @@ function getEnv(name: string): string {
 }
 
 function buildAuthorizeUrl(request: Request, state: string): string {
-  let origin: string;
-  
-  if (process.env.NODE_ENV === "production") {
-    // Prefer VERCEL_URL if available
-    if (process.env.VERCEL_URL) {
-      origin = `https://${process.env.VERCEL_URL}`;
-    } else if (process.env.NEXT_PUBLIC_SITE_URL) {
-      origin = process.env.NEXT_PUBLIC_SITE_URL;
-    } else if (process.env.ORIGIN) {
-      origin = process.env.ORIGIN;
-      if (!origin.startsWith("http://") && !origin.startsWith("https://")) {
-        origin = `https://${origin}`;
-      }
-    } else {
-      origin = new URL(request.url).origin;
-    }
-  } else {
-    origin = process.env.ORIGIN || new URL(request.url).origin;
-    if (origin && !origin.startsWith("http://") && !origin.startsWith("https://")) {
-      origin = `http://${origin}`;
-    }
-  }
-  
+  const origin = getSiteUrl();
   const clientId = getEnv("OAUTH_CLIENT_ID");
   const callback = process.env.COMPLETE_URL || `${origin}/callback`;
   const authorize = new URL("https://github.com/login/oauth/authorize");
