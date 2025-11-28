@@ -24,3 +24,5 @@ Edit content via `/admin` (Sveltia CMS with GitHub OAuth).
 ## Deploy
 
 Automatically deployed to Vercel on push to `main`.
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment infrastructure documentation.
