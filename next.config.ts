@@ -3,10 +3,6 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   async rewrites() {
     return [
-      {
-        source: "/admin/config.yml",
-        destination: "/api/admin/config",
-      },
       // CMS OAuth endpoints at base_url root
       {
         source: "/auth",
