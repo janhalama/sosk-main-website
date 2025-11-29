@@ -3,7 +3,7 @@ backend:
   repo: janhalama/sosk-main-website
   branch: main
   # base_url is dynamically set by /api/admin/config route based on environment
-  base_url: https://sosk-main-website.vercel.app
+  base_url: https://sokolskuhrov.cz
   auth_endpoint: auth
 
 local_backend: false
