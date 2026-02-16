@@ -22,6 +22,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/akce", label: "Akce" },
   { href: "/fotogalerie", label: "Fotogalerie" },
   { href: "/sponzori", label: "Sponzoři" },
+  { href: "/dotace", label: "Dotace" },
   { href: "/kontakty", label: "Kontakty" },
   { href: "https://lyzari.sokolskuhrov.cz/home", label: "Lyžaři", external: true },
 ];

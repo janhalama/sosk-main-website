@@ -123,6 +123,20 @@ collections:
             label: Obsah
             widget: markdown
             required: true
+      - label: Dotace
+        name: dotace
+        file: content/pages/dotace.md
+        editor:
+          preview: false
+        fields:
+          - name: title
+            label: Titulek
+            widget: string
+            required: false
+          - name: body
+            label: Obsah
+            widget: markdown
+            required: true
       - label: Kontakty
         name: kontakty
         file: content/pages/kontakty.md
