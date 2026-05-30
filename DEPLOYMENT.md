@@ -14,6 +14,8 @@ The website uses **Improvemx.com** for email forwarding services.
 
 - `prihlasky@sokolskuhrov.cz` - forwards registration emails
 - `webteam@sokolskuhrov.cz` - forwards web team emails
+- `starosta@sokolskuhrov.cz` - forwards to the Sokol Skuhrov unit head
+- `info@sokolskuhrov.cz` - forwards to the Sokol Skuhrov unit head
 
 ### Administrator Account
 
